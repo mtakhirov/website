@@ -10,6 +10,7 @@ export default function Home() {
         molestias error pariatur laboriosam odio animi amet aliquam vero. Quia
         nostrum excepturi consequuntur.
       </h1>
+
       <Button theme='primary' style='rounded' size='md'>
         Click me
       </Button>
