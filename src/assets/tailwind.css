@@ -3,29 +3,23 @@
 @tailwind utilities;
 
 @layer base {
-  body#app {
-    @apply min-h-screen flex flex-col;
-  }
+    body#app {
+        @apply min-h-screen flex flex-col;
+        @apply bg-white dark:bg-black;
+        @apply text-black dark:text-white;
+    }
 
-  body#app.dark {
-    @apply bg-[rgb(20_20_20)];
-  }
-
-  body#app.light {
-    @apply bg-[rgb(245,245,245)];
-  }
-
-  body#app > main {
-    @apply flex-1;
-  }
+    body#app > main {
+        @apply flex-grow;
+    }
 }
 
 @layer components {
-  .container {
-    @apply w-full max-w-screen-md mx-auto px-2 md:px-4;
-  }
+    .container {
+        @apply w-full max-w-screen-md mx-auto px-2 md:px-4;
+    }
 
-  .container-lg {
-    @apply w-full max-w-screen-lg mx-auto px-2 md:px-4;
-  }
+    .container-lg {
+        @apply w-full max-w-screen-lg mx-auto px-2 md:px-4;
+    }
 }

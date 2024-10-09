@@ -1,38 +1,24 @@
-import type { FC, PropsWithChildren } from 'react';
-import type { Metadata, Viewport } from 'next';
-import { I18nProviderClient } from '@/locales/client';
-import { FooterSection, HeaderSection } from '@/sections';
+import type { PropsWithChildren } from "react";
 
-import '#assets/tailwind.css';
+import { I18nProviderClient } from "@/locales/client";
+import { FooterSection, HeaderSection } from "@/sections";
 
-export const metadata: Metadata = {
-  title: "Takhirov's Diary",
-  description: 'Goofy ahh description'
-};
+interface PageParams {
+  params: { locale: string };
+}
 
-export const viewport: Viewport = {
-  themeColor: '#000000',
-  colorScheme: 'dark'
-};
-
-const Layout: FC<PropsWithChildren & { params: { locale: string } }> = ({
+const I18nLayout: React.FC<PropsWithChildren<PageParams>> = ({
   children,
-  params
+  params,
 }) => {
   return (
-    <html lang={params.locale}>
-      <body id='app' className=''>
-        <HeaderSection />
-
-        <I18nProviderClient locale={params.locale}>
-          {children}
-        </I18nProviderClient>
-
-        <FooterSection />
-      </body>
-    </html>
+    <I18nProviderClient locale={params.locale}>
+      <HeaderSection />
+      {children}
+      <FooterSection />
+    </I18nProviderClient>
   );
 };
+I18nLayout.displayName = "Localication Registerer Layout";
 
-Layout.displayName = 'Layout';
-export default Layout;
+export default I18nLayout;

@@ -1,12 +1,7 @@
-import type { FC } from 'react';
-
-const AboutPage: FC = () => {
+export default async function BlogPage() {
   return (
-    <main className='container'>
-      <h1 className='text-4xl font-bold'>Blog list</h1>
+    <main className="container">
+      <h1 className="text-4xl font-bold">Blog list</h1>
     </main>
   );
-};
-
-AboutPage.displayName = 'About Page';
-export default AboutPage;
+}

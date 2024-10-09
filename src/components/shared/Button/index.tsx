@@ -1,28 +1,41 @@
-import type { FC } from 'react';
-import type { ButtonProps } from '#components/shared/Button/types';
+import type { FC } from "react";
+import type { ButtonProps } from "#components/shared/Button/types";
 
-import { buttonVariants } from '#components/shared/Button/variants';
-import { cn } from '#utils';
+import { memo } from "react";
+import { buttonVariants } from "#components/shared/Button/variants";
+import { cn } from "#utils";
+import { updateProps } from "@/utils/update-props";
 
 export const Button: FC<ButtonProps> = ({
+  as = "button",
   children,
   className,
-  // Button variants
+  // Icons1
+  leftIcon,
+  rightIcon,
+  // Style variants
   theme,
-  style,
+  mode,
   size,
   // ---------------
-  ...props
+  ...restProps
 }) => {
-  const variantClassNames = buttonVariants({ theme, style, size });
-  const $className = cn(variantClassNames, className);
+  const Element = as;
 
   return (
-    <button className={$className} {...props}>
-      {children}
-    </button>
+    <Element
+      className={cn([
+        buttonVariants({ theme, mode, size }),
+        className,
+      ])}
+      {...restProps}
+    >
+      {!!leftIcon && updateProps(leftIcon, {})}
+      <span>{children}</span>
+      {!!rightIcon && updateProps(rightIcon, {})}
+    </Element>
   );
 };
 
-Button.displayName = 'Button Component';
-export default Button;
+Button.displayName = "Button Component";
+export default memo(Button);

@@ -1,11 +1,9 @@
-import type { FC } from 'react';
-
-const AboutPage: FC = () => {
+export default async function AboutPage() {
   return (
-    <main className='container'>
-      <h1 className='text-4xl font-bold'>About page</h1>
+    <main className="container">
+      <h1 className="text-4xl font-bold">About page</h1>
 
-      <p className='text-balance text-sm text-white/75 pt-4'>
+      <p className="text-balance text-sm text-white/75 pt-4">
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Harum illum
         quibusdam, ratione in repellendus voluptates amet quisquam suscipit sint
         delectus, laborum quod vero nihil? Omnis, quaerat voluptatibus sequi
@@ -119,7 +117,4 @@ const AboutPage: FC = () => {
       </p>
     </main>
   );
-};
-
-AboutPage.displayName = 'About Page';
-export default AboutPage;
+}
