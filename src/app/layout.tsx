@@ -1,47 +1,25 @@
 import type React from "react";
-import type { PropsWithChildren } from "react";
-import type { Metadata, Viewport } from "next";
 
+import { getLocale } from "next-intl/server";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
-import { cn } from "#utils";
+import { RootLayout } from "#features/pages";
+import { cn } from "#shared/utils";
 
 // Styles
-import "#assets/tailwind.css";
+import "#shared/assets/css/tailwind.css";
 
-export const metadata: Metadata = {
-  title: {
-    default: "Takhirov's Diary",
-    template: "%s || Takhirov's Diary",
-  },
+export { metadata, viewport } from "@/app/config";
 
-  description: "Some description content",
-  creator: "Mukhammaddiyor Takhirov <mtohirov60@gmail.com>",
-};
+export default async function Root({ children }: React.PropsWithChildren) {
+  const locale = await getLocale();
 
-export const viewport: Viewport = {
-  colorScheme: "dark light",
-  themeColor: "#000000",
-
-  initialScale: 1,
-  userScalable: false,
-  width: "device-width",
-};
-
-const RootLayout: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <html
-      lang="en"
+      lang={locale}
       className={cn(GeistSans.variable, GeistMono.variable, "antialiased")}
     >
-      <body
-        id="app"
-        className="bg-white dark:bg-black text-black dark:text-white"
-      >
-        {children}
-      </body>
+      <RootLayout>{children}</RootLayout>
     </html>
   );
-};
-
-export default RootLayout;
+}
