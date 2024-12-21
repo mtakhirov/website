@@ -1,0 +1,16 @@
+{
+  "Home": {
+    "title": "uzb"
+  },
+
+  "Widgets": {
+    "Header": {
+      "links": {
+        "about": "Men haqimda",
+        "blog": "Blog",
+        "works": "Ishlar",
+        "resume": "Resume"
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "Home": {
+    "title": "eng"
+  },
+
+  "Widgets": {
+    "Header": {
+      "links": {
+        "about": "About me",
+        "blog": "Blog",
+        "works": "Works",
+        "resume": "Resume"
+      }
+    }
+  }
+}
