@@ -3,9 +3,11 @@ import tw from "tailwindcss/defaultTheme";
 
 const config: Config = {
   content: [
-    "./src/components/**/*.{ts,tsx}",
-    "./src/sections/**/*.{ts,tsx}",
     "./src/app/**/*.{ts,tsx}",
+    "./src/components/**/*.{ts,tsx}",
+    "./src/features/**/*.{ts,tsx}",
+    "./src/modules/**/*.{ts,tsx}",
+    "./src/widgets/**/*.{ts,tsx}",
   ],
   theme: {
     colors: {

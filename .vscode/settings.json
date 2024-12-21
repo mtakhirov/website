@@ -3,18 +3,10 @@
   "prettier.endOfLine": "lf",
 
   "files.associations": {
-    "*.css": "tailwindcss",
-    "*.scss": "tailwindcss",
-    "*.sass": "tailwindcss",
-    "*.less": "tailwindcss",
-
-    "*.ts": "typescript",
-    "*.tsx": "typescriptreact"
+    "*.css": "tailwindcss"
   },
 
   "tailwindCSS.experimental.classRegex": [
     ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
-  ],
-
-  "cSpell.words": ["clsx", "takhirov", "takhirov's", "textinfo"]
+  ]
 }
