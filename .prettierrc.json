@@ -16,5 +16,6 @@
   "endOfLine": "lf",
   "arrowParens": "always",
 
+  "tailwindFunctions": ["clsx", "cva", "cn"],
   "plugins": ["prettier-plugin-tailwindcss"]
 }

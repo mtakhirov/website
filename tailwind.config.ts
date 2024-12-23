@@ -3,6 +3,7 @@ import type { Config } from "tailwindcss";
 import colors from "tailwindcss/colors";
 import tw from "tailwindcss/defaultTheme";
 import twTypography from "@tailwindcss/typography";
+import twAnimation from "tailwindcss-animate";
 
 const config: Config = {
   content: ["./src/**/*.{ts,tsx}"],
@@ -35,6 +36,7 @@ const config: Config = {
       minHeight: ({ theme }) => ({
         ...theme("height"),
       }),
+
       fontFamily: {
         sans: ["var(--font-geist-sans)", ...tw.fontFamily.sans],
         mono: ["var(--font-geist-mono)", ...tw.fontFamily.mono],
@@ -42,7 +44,7 @@ const config: Config = {
     },
   },
 
-  plugins: [twTypography],
+  plugins: [twTypography, twAnimation],
 };
 
 export default config;
