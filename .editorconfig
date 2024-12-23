@@ -1,4 +1,6 @@
 root = true
+
+[*]
 charset = utf-8
 
 tab_width = 80

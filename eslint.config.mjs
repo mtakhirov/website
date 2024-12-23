@@ -33,6 +33,7 @@ const config = [
       "next/core-web-vitals",
       "plugin:jsx-a11y/recommended",
       "plugin:tailwindcss/recommended",
+      "plugin:prettier/recommended",
       "prettier",
     ),
   ),
@@ -40,7 +41,7 @@ const config = [
     plugins: {
       "react-hooks": fixupPluginRules(reactHooks),
       "@typescript-eslint": fixupPluginRules(typescriptEslint),
-      tailwindcss: fixupPluginRules(tailwindcss),
+      "tailwindcss": fixupPluginRules(tailwindcss),
     },
 
     languageOptions: {
@@ -81,6 +82,12 @@ const config = [
         },
       ],
 
+      "prettier/prettier": [
+        "error",
+        {
+          endOfLine: "lf",
+        },
+      ],
       "tailwindcss/classnames-order": ["error", twOptions],
       "tailwindcss/enforces-negative-arbitrary-values": ["error", twOptions],
       "tailwindcss/enforces-shorthand": ["error", twOptions],
