@@ -1,0 +1,1 @@
+export { aboutPageMetadata } from "./metadata";

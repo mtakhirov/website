@@ -4,21 +4,33 @@
 
 @layer base {
   body#app {
-    @apply min-h-screen flex flex-col;
     @apply bg-black text-white;
+    @apply flex min-h-screen flex-col;
   }
 
   body#app > main {
     @apply flex-grow;
   }
+
+  p {
+    text-decoration: inherit;
+  }
+
+  a {
+    @apply text-white/70 transition-colors hover:text-white;
+  }
+
+  a[data-underline] {
+    @apply no-underline underline-offset-2 hover:underline;
+  }
 }
 
 @layer components {
   .container {
-    @apply w-full max-w-screen-md mx-auto px-2 md:px-4;
+    @apply mx-auto w-full max-w-screen-md px-2 md:px-4;
   }
 
   .container-lg {
-    @apply w-full max-w-screen-lg mx-auto px-2 md:px-4;
+    @apply mx-auto w-full max-w-screen-lg px-2 md:px-4;
   }
 }

@@ -1,4 +1,4 @@
-export { default as HeaderWidget } from "./widget";
+export { HeaderWidget } from "./widget";
 
-export * from "./hooks";
-export * from "./config";
+export { useHeaderScroll } from "./hook";
+export { GAP, LINKS, PADDING, PROPERTY_NAME, SPACE_SIZE } from "./config";

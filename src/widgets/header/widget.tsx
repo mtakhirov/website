@@ -6,14 +6,14 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 
 import { cn } from "#shared/utils";
-import { BarsIcon } from "#shared/ui/icons";
-import { useHeaderScroll } from "./hooks";
+import { IconHamburger } from "#shared/ui/icons";
+import { useHeaderScroll } from "#widgets/header/hook";
 
 // Configs
 import { APP_NAME } from "@/app/config";
-import { LINKS } from "./config";
+import { LINKS } from "#widgets/header/config";
 
-export default (): React.ReactElement => {
+export const HeaderWidget: React.FC = () => {
   const t = useTranslations("Widgets.Header");
   const { headerRef, navRef, hasScrolled } = useHeaderScroll();
 
@@ -22,26 +22,26 @@ export default (): React.ReactElement => {
       ref={headerRef}
       data-scrolled={hasScrolled}
       className={cn([
-        "group container flex sticky justify-center top-0 my-4",
-        "data-[scrolled=true]:top-4 transition-[top]",
+        "group container sticky top-0 my-4 flex justify-center",
+        "transition-[top] data-[scrolled=true]:top-4",
       ])}
     >
       <nav
         ref={navRef}
         className={cn([
-          "w-full bg-black/0 flex items-center justify-between backdrop-filter",
-          "max-w-[var(--header-nav-width,_100%)] py-2.5 px-0 gap-2 md:gap-4 rounded-full",
+          "flex w-full items-center justify-between bg-black/0",
+          "max-w-[var(--header-nav-width,_100%)] gap-2 rounded-full px-0 py-2.5 md:gap-4",
           "group-data-[scrolled=true]:bg-black/60 group-data-[scrolled=true]:backdrop-blur-sm",
           "transition-all duration-300 group-data-[scrolled=true]:px-4",
         ])}
       >
-        <Link href="/" className="hover:underline underline-offset-2">
+        <Link href="/" data-underline>
           <h3>{APP_NAME}</h3>
         </Link>
 
-        <span className="w-px h-full bg-gray-400 opacity-0 group-data-[scrolled=true]:opacity-100" />
+        <span className="h-full w-px bg-white/20 opacity-0 group-data-[scrolled=true]:opacity-100" />
 
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden items-center gap-4 md:flex">
           {LINKS.map((link) => (
             <Link key={link} href={`/${link}`}>
               {t(`links.${link}`)}
@@ -49,8 +49,8 @@ export default (): React.ReactElement => {
           ))}
         </div>
 
-        <div className="flex md:hidden items-center gap-4">
-          <BarsIcon />
+        <div className="flex items-center gap-4 md:hidden">
+          <IconHamburger />
         </div>
       </nav>
     </header>

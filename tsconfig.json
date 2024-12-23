@@ -13,14 +13,14 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
+    "plugins": [{ "name": "next" }],
     "paths": {
       "@/*": ["./src/*"],
+      "#env": ["./src/env.ts"],
+
       "#features/*": ["./src/features/*"],
+      "#views/*": ["./src/views/*"],
+
       "#entities": ["./src/entities"],
       "#entities/*": ["./src/entities/*"],
       "#widgets": ["./src/widgets"],

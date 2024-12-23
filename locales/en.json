@@ -1,15 +1,17 @@
 {
   "Home": {
-    "title": "eng"
+    "title": "Mukhammaddiyor Takhirov",
+    "description": "<bold>software developer</bold> and <bold>night-time coder/gamer</bold>",
+    "fun-fact": "<text-red>*</text-red> Crafts new and innovative <bold><strike>apps</strike></bold> bugs"
   },
 
   "Widgets": {
     "Header": {
       "links": {
         "about": "About me",
-        "blog": "Blog",
-        "works": "Works",
-        "resume": "Resume"
+        "projects": "Projects",
+        "resume": "Resume",
+        "blog": "Blog"
       }
     }
   }

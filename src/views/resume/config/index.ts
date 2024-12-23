@@ -1,0 +1,1 @@
+export { resumePageMetadata } from "./metadata";
