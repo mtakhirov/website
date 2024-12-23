@@ -1,17 +1,19 @@
 {
   "Home": {
-    "title": "Mukhammaddiyor Takhirov",
-    "description": "<bold>software developer</bold> and <bold>night-time coder/gamer</bold>",
-    "fun-fact": "<text-red>*</text-red> Crafts new and innovative <bold><strike>apps</strike></bold> bugs"
+    "title": "Muhammaddiyor Tohirov",
+    "description": "<bold>software developer</bold> va <bold>night-time coder/gamer</bold>",
+    "fun-fact": "<text-red>*</text-red> Yangi va innovatsion <bold><strike>ilovalar</strike></bold> xatoliklarni yaratadi"
   },
 
   "Widgets": {
     "Header": {
+      "locale": "{locale, select, uz {O'zbek tili} en {English} other {Undefined}}",
+
       "links": {
-        "about": "Men haqimda",
+        "about": "Biografiya",
         "projects": "Proektlar",
         "resume": "Resume",
-        "blog": "Blog"
+        "blog": "Maqolalar"
       }
     }
   }

@@ -8,9 +8,11 @@ import { useTranslations } from "next-intl";
 import { cn } from "#shared/utils";
 import { IconHamburger } from "#shared/ui/icons";
 import { useHeaderScroll } from "#widgets/header/hook";
+import { Button } from "#shared/ui";
+import { LanguageSwitcher } from "./ui";
 
 // Configs
-import { APP_NAME } from "@/app/config";
+// import { APP_NAME } from "@/app/config";
 import { LINKS } from "#widgets/header/config";
 
 export const HeaderWidget: React.FC = () => {
@@ -21,36 +23,39 @@ export const HeaderWidget: React.FC = () => {
     <header
       ref={headerRef}
       data-scrolled={hasScrolled}
-      className={cn([
-        "group container sticky top-0 my-4 flex justify-center",
-        "transition-[top] data-[scrolled=true]:top-4",
-      ])}
+      className="group container sticky top-4 my-4"
     >
       <nav
         ref={navRef}
         className={cn([
-          "flex w-full items-center justify-between bg-black/0",
-          "max-w-[var(--header-nav-width,_100%)] gap-2 rounded-full px-0 py-2.5 md:gap-4",
-          "group-data-[scrolled=true]:bg-black/60 group-data-[scrolled=true]:backdrop-blur-sm",
-          "transition-all duration-300 group-data-[scrolled=true]:px-4",
+          "flex w-full items-center justify-between gap-4 rounded-full bg-black/60 py-2 text-sm duration-300 md:py-3",
+          "backdrop-blur-sm transition-all group-data-[scrolled=true]:px-3 group-data-[scrolled=true]:md:px-4",
         ])}
       >
-        <Link href="/" data-underline>
-          <h3>{APP_NAME}</h3>
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link href="/" data-underline>
+            {/* <h3>{APP_NAME}</h3> */}
+            <h3>{`~/tkhrv`}</h3>
+          </Link>
 
-        <span className="h-full w-px bg-white/20 opacity-0 group-data-[scrolled=true]:opacity-100" />
+          {/* <span className="hidden text-white/35 md:inline-block">{`</>`}</span> */}
+          <span className="hidden text-white/35 md:inline-block">{`#`}</span>
 
-        <div className="hidden items-center gap-4 md:flex">
-          {LINKS.map((link) => (
-            <Link key={link} href={`/${link}`}>
-              {t(`links.${link}`)}
-            </Link>
-          ))}
+          <div className="hidden items-center gap-4 md:flex">
+            {LINKS.map((link) => (
+              <Link key={link} href={`/${link}`}>
+                {t(`links.${link}`)}
+              </Link>
+            ))}
+          </div>
         </div>
 
-        <div className="flex items-center gap-4 md:hidden">
-          <IconHamburger />
+        <div className="flex items-center gap-4">
+          <LanguageSwitcher />
+
+          <Button size="icon" variant="ghost" className="inline-flex md:hidden">
+            <IconHamburger />
+          </Button>
         </div>
       </nav>
     </header>

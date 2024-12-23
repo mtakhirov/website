@@ -8,13 +8,13 @@ export const HomePage: React.FC = async () => {
 
   return (
     <main id="home-page" className="container">
-      <h1 className="text-4xl font-bold">{t("title")}</h1>
+      <h1 className="text-2xl font-bold md:text-4xl">{t("title")}</h1>
 
-      <p className="mt-1 font-mono font-light [&_b]:font-semibold">
+      <p className="mt-1 font-mono text-sm font-light text-white/70 md:text-base [&_b]:font-semibold [&_b]:text-white">
         {t.rich("description", translationFormats)}
       </p>
 
-      <p className="mt-4 font-mono font-light text-white/50">
+      <p className="mt-4 font-mono text-xs font-extralight text-white/50 md:text-sm [&_b]:font-medium">
         {t.rich("fun-fact", translationFormats)}
       </p>
     </main>

@@ -7,8 +7,10 @@
 
   "Widgets": {
     "Header": {
+      "locale": "{locale, select, uz {Uzbek} en {English}  other {Undefined}}",
+
       "links": {
-        "about": "About me",
+        "about": "Biography",
         "projects": "Projects",
         "resume": "Resume",
         "blog": "Blog"

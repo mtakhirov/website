@@ -5,7 +5,7 @@
 @layer base {
   body#app {
     @apply bg-black text-white;
-    @apply flex min-h-screen flex-col;
+    @apply flex min-h-dvh flex-col;
   }
 
   body#app > main {

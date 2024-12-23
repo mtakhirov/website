@@ -2,31 +2,30 @@ import { cva } from "cva";
 
 export const buttonVariants = cva(
   [
-    "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium",
-    "transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white",
+    "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium",
+    "transition-colors duration-300 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white",
     "disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   ],
   {
     variants: {
       variant: {
-        primary: "bg-white text-black",
-        outline: "border border-white bg-black/0",
-      },
-      mode: {
-        square: "rounded-lg",
-        rounded: "rounded-full",
+        primary: "bg-white text-black shadow hover:bg-white/90",
+        secondary: "bg-black text-white hover:bg-black/90",
+        outline:
+          "border border-white bg-white/0 text-white hover:border-white/90 hover:bg-white/35",
+        ghost:
+          "bg-white/0 text-white hover:bg-white/10 focus-visible:ring-white/10",
       },
       size: {
-        lg: "px-6 py-4 text-lg",
-        md: "px-4 py-2.5 text-base",
-        sm: "px-3.5 py-2 text-sm",
-        xs: "px-2.5 py-1 text-xs",
+        default: "px-4 py-3",
+        sm: "px-3.5 py-2 text-xs",
+        lg: "rounded-lg px-8 py-3",
+        icon: "aspect-square size-9",
       },
     },
     defaultVariants: {
       variant: "primary",
-      mode: "rounded",
-      size: "md",
+      size: "default",
     },
   },
 );
