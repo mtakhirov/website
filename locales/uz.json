@@ -1,15 +1,19 @@
 {
   "Home": {
-    "title": "uzb"
+    "title": "Muhammaddiyor Tohirov",
+    "description": "<bold>software developer</bold> va <bold>night-time coder/gamer</bold>",
+    "fun-fact": "<text-red>*</text-red> Yangi va innovatsion <bold><strike>ilovalar</strike></bold> xatoliklarni yaratadi"
   },
 
   "Widgets": {
     "Header": {
+      "locale": "{locale, select, uz {O'zbek tili} en {English} other {Undefined}}",
+
       "links": {
-        "about": "Men haqimda",
-        "blog": "Blog",
-        "works": "Ishlar",
-        "resume": "Resume"
+        "about": "Biografiya",
+        "projects": "Proektlar",
+        "resume": "Resume",
+        "blog": "Maqolalar"
       }
     }
   }

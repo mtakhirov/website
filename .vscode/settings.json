@@ -1,7 +1,4 @@
 {
-  "prettier.tabWidth": 2,
-  "prettier.endOfLine": "lf",
-
   "files.associations": {
     "*.css": "tailwindcss"
   },

@@ -1,0 +1,1 @@
+export { IconHamburger } from "./component";

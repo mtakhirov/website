@@ -1,1 +1,1 @@
-export { default as FooterWidget } from "./widget";
+export { FooterWidget } from "./widget";

@@ -1,13 +1,13 @@
 import type React from "react";
-import type { ButtonProps } from "./types";
+import type { ButtonProps } from "#shared/ui/button";
 
 import { cn } from "#shared/utils";
-import { buttonVariants } from "./variant";
+import { buttonVariants } from "#shared/ui/button";
 
 export const Button: React.FC<ButtonProps> = (props) => {
-  const { theme, size, mode, className, ...restProps } = props;
+  const { variant, size, className, ...restProps } = props;
 
-  const variants = buttonVariants({ theme, size, mode, className });
+  const variants = buttonVariants({ variant, size, className });
   const classNames = cn(variants, className);
 
   return <button className={classNames} {...restProps} />;

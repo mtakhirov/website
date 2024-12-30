@@ -1,14 +1,14 @@
 import type { Config } from "tailwindcss";
+
+import colors from "tailwindcss/colors";
 import tw from "tailwindcss/defaultTheme";
+import twTypography from "@tailwindcss/typography";
+import twAnimation from "tailwindcss-animate";
 
 const config: Config = {
-  content: [
-    "./src/app/**/*.{ts,tsx}",
-    "./src/components/**/*.{ts,tsx}",
-    "./src/features/**/*.{ts,tsx}",
-    "./src/modules/**/*.{ts,tsx}",
-    "./src/widgets/**/*.{ts,tsx}",
-  ],
+  content: ["./src/**/*.{ts,tsx}"],
+  darkMode: "class",
+
   theme: {
     colors: {
       transparent: "transparent",
@@ -18,25 +18,33 @@ const config: Config = {
       black: {
         DEFAULT: "#000000",
       },
+      red: {
+        DEFAULT: colors.red[500],
+        ...colors.red,
+      },
     },
     extend: {
+      maxWidth: ({ theme }) => ({
+        ...theme("width"),
+      }),
+      minWidth: ({ theme }) => ({
+        ...theme("width"),
+      }),
+      maxHeight: ({ theme }) => ({
+        ...theme("height"),
+      }),
+      minHeight: ({ theme }) => ({
+        ...theme("height"),
+      }),
+
       fontFamily: {
         sans: ["var(--font-geist-sans)", ...tw.fontFamily.sans],
         mono: ["var(--font-geist-mono)", ...tw.fontFamily.mono],
       },
-      keyframes: {
-        shimmer: {
-          from: { translateX: "-100%" },
-          to: { translateX: "100%" },
-        },
-        "shimmer-text": {
-          from: { backgroundPositionX: "100%" },
-          to: { backgroundPositionX: "0%" },
-        },
-      },
     },
   },
-  plugins: [],
+
+  plugins: [twTypography, twAnimation],
 };
 
 export default config;
