@@ -50,6 +50,7 @@
     "globals": "^15.14.0",
     "next-mdx-remote": "^5.0.0",
     "postcss": "^8",
+    "postcss-import": "^16.1.0",
     "postcss-load-config": "^6.0.1",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.9",
