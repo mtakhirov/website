@@ -1,18 +1,31 @@
 import type React from "react";
+import type { Locale } from "#features/i18n";
 
 import path from "node:path";
 import fs from "node:fs/promises";
 
 import { parseMDX } from "#features/mdx";
+import { getLocale } from "next-intl/server";
 
 interface Frontmatter {
   title: string;
 }
 
-export const BlogDetailPage: React.FC = async () => {
+interface PageParams {
+  slug: string;
+}
+
+interface PageProps {
+  params: Promise<PageParams>;
+}
+
+export const BlogDetailPage: React.FC<PageProps> = async (props) => {
+  const { slug } = await props.params;
+  const locale = (await getLocale()) as Locale;
+
   const contentDirectory = path.resolve(process.cwd(), "content");
   const content = await fs.readFile(
-    path.join(contentDirectory, "hello-world", "uz.mdx"),
+    path.join(contentDirectory, slug, `${locale}.mdx`),
     "utf-8",
   );
 

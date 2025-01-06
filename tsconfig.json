@@ -17,6 +17,8 @@
     "paths": {
       "@/*": ["./src/*"],
       "#env": ["./src/env.ts"],
+      "#content/*": ["./content/*"],
+      "#locales/*": ["./locales/*"],
 
       "#features/*": ["./src/features/*"],
       "#views/*": ["./src/views/*"],

@@ -1,0 +1,4 @@
+# Ignore metadata file
+metadata.json
+metadata.tsx
+metadata.ts

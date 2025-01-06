@@ -1,0 +1,17 @@
+import { locales } from "#features/i18n";
+
+type StringableMetadata = "title" | "description";
+type ArrayableMetadata = "tags";
+
+type $Locales = typeof locales;
+type AvailableLocales = $Locales[number];
+
+type Slug = string;
+type MetadataData = Record<StringableMetadata, string> &
+  Record<ArrayableMetadata, string[]>;
+
+type MetadataProps = Record<AvailableLocales, MetadataData>;
+
+type Metadata = Array<[Slug, Partial<MetadataProps>]>;
+
+export default (<Metadata>{{ METADATA }}) satisfies Metadata;
