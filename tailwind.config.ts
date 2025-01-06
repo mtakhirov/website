@@ -22,6 +22,10 @@ const config: Config = {
         DEFAULT: colors.red[500],
         ...colors.red,
       },
+      green: {
+        DEFAULT: colors.green[500],
+        ...colors.green,
+      },
     },
     extend: {
       maxWidth: ({ theme }) => ({

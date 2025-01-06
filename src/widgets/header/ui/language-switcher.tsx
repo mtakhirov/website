@@ -23,7 +23,11 @@ export const LanguageSwitcher: React.FC = () => {
 
   return (
     <Select.Root value={locale} onValueChange={onLocaleChange}>
-      <Select.Trigger variant="ghost" size="icon">
+      <Select.Trigger
+        variant="ghost"
+        size="icon"
+        className="hidden md:inline-flex"
+      >
         <LanguagesIcon />
       </Select.Trigger>
       <Select.Content>

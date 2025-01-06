@@ -1,3 +1,6 @@
+@import url('#features/mdx/styles/alert.css');
+@import url('#features/mdx/styles/shiki.css');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

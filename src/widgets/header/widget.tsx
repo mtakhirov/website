@@ -3,61 +3,109 @@
 import type React from "react";
 
 import Link from "next/link";
+import { useState, createContext, useEffect } from "react";
 import { useTranslations } from "next-intl";
 
 import { cn } from "#shared/utils";
 import { IconHamburger } from "#shared/ui/icons";
 import { useHeaderScroll } from "#widgets/header/hook";
 import { Button } from "#shared/ui";
-import { LanguageSwitcher } from "./ui";
+import { LanguageSwitcher, MobileMenu } from "./ui";
 
 // Configs
 // import { APP_NAME } from "@/app/config";
 import { LINKS } from "#widgets/header/config";
 
+type HeaderContextProps = {
+  mobileMenuOpen: boolean;
+  setMobileMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
+
+  hasScrolled: boolean;
+};
+
+export const HeaderContext = createContext<HeaderContextProps | null>(null);
+
+/**
+ * HeaderWidget component renders the header section of the website.
+ * It includes navigation links, a language switcher, and a hamburger menu for mobile view.
+ */
 export const HeaderWidget: React.FC = () => {
   const t = useTranslations("Widgets.Header");
   const { headerRef, navRef, hasScrolled } = useHeaderScroll();
 
+  const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    if (mobileMenuOpen) {
+      document.body.style.pointerEvents = "none";
+      document.body.setAttribute("data-scroll-locked", "true");
+    } else {
+      document.body.style.pointerEvents = "";
+      document.body.removeAttribute("data-scroll-locked");
+    }
+  }, [mobileMenuOpen]);
+
   return (
-    <header
-      ref={headerRef}
-      data-scrolled={hasScrolled}
-      className="group container sticky top-4 my-4"
+    <HeaderContext.Provider
+      value={{ hasScrolled, mobileMenuOpen, setMobileMenuOpen }}
     >
-      <nav
-        ref={navRef}
-        className={cn([
-          "flex w-full items-center justify-between gap-4 rounded-full bg-black/60 py-2 text-sm duration-300 md:py-3",
-          "backdrop-blur-sm transition-all group-data-[scrolled=true]:px-3 group-data-[scrolled=true]:md:px-4",
-        ])}
+      <header
+        ref={headerRef}
+        data-scrolled={hasScrolled}
+        data-mobile-menu-open={mobileMenuOpen}
+        className="group container pointer-events-auto sticky top-4 z-50 my-4"
       >
-        <div className="flex items-center gap-2">
-          <Link href="/" data-underline>
-            {/* <h3>{APP_NAME}</h3> */}
-            <h3>{`~/tkhrv`}</h3>
-          </Link>
+        <nav
+          ref={navRef}
+          className={cn([
+            "mx-auto flex w-full items-center justify-between gap-4 rounded-full bg-black/60 py-1.5 text-sm duration-300 md:py-2",
+            "w-full backdrop-blur-sm transition-all group-data-[scrolled=true]:px-2 md:w-[var(--header-nav-width)] group-data-[scrolled=true]:md:px-3",
+            "group-data-[mobile-menu-open=true]:w-full group-data-[mobile-menu-open=true]:bg-black/0 group-data-[mobile-menu-open=true]:px-2 group-data-[mobile-menu-open=true]:md:px-3",
+          ])}
+        >
+          <div className="flex items-center gap-2">
+            <Link
+              href="/"
+              data-underline
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {/* <h3>{APP_NAME}</h3> */}
+              <h3>{`~/tkhrv`}</h3>
+            </Link>
 
-          {/* <span className="hidden text-white/35 md:inline-block">{`</>`}</span> */}
-          <span className="hidden text-white/35 md:inline-block">{`#`}</span>
+            <span className="hidden select-none text-white/35 md:inline-block">{`#`}</span>
 
-          <div className="hidden items-center gap-4 md:flex">
-            {LINKS.map((link) => (
-              <Link key={link} href={`/${link}`}>
-                {t(`links.${link}`)}
-              </Link>
-            ))}
+            <div className="hidden items-center gap-4 md:flex">
+              {LINKS.map((link, index) => (
+                <Link key={`${link}-${index}`} href={`/${link}`}>
+                  {t(`links.${link}`)}
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
 
-        <div className="flex items-center gap-4">
-          <LanguageSwitcher />
+          <span className="inline-block select-none text-white/35 opacity-0 transition-opacity group-data-[mobile-menu-open=true]:opacity-0 group-data-[scrolled=true]:md:opacity-100">
+            {`/`}
+          </span>
 
-          <Button size="icon" variant="ghost" className="inline-flex md:hidden">
-            <IconHamburger />
-          </Button>
-        </div>
-      </nav>
-    </header>
+          <div className="flex items-center gap-4">
+            <LanguageSwitcher />
+
+            <Button
+              size="icon"
+              variant="ghost"
+              className="inline-flex md:hidden"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              <IconHamburger />
+            </Button>
+
+            <MobileMenu />
+          </div>
+        </nav>
+      </header>
+    </HeaderContext.Provider>
   );
 };
