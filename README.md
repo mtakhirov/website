@@ -58,25 +58,25 @@ package.json       # Dependencies and scripts
 
 To run the project locally, follow these steps:
 
-1. ### Clone this repository:
+1. ### Clone this repository
 
-  ```shell
-  git clone <repository-url>
-  ```
+```shell
+git clone <repository-url>
+```
 
-2. ### Install dependencies using pnpm (recommended):
+2. ### Install dependencies using pnpm (recommended)
 
-  ```shell
-  pnpm install
-  ```
+```shell
+pnpm install
+```
 
-3. ### Run the development server:
+3. ### Run the development server
 
-  ```shell
-  pnpm run dev
-  ```
+```shell
+pnpm run dev
+```
 
 ## License
 
-This project is licensed under the [WTFPL](./LICENSE) (Do What the F*ck You Want
+This project is licensed under the [WTFPL](./LICENSE) (Do What the F\*ck You Want
 to Public License).

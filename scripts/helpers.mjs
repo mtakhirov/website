@@ -1,14 +1,13 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-
 import fs from "node:fs";
 import { resolve } from "node:path";
+import process from "node:process";
 
+import logger from "consola";
 import glob from "fast-glob";
-import prettier from "prettier";
 import matter from "gray-matter";
 
+import prettier from "prettier";
 import { z } from "zod";
-import logger from "consola";
 
 /**
  * METADATA_SCHEMA defines the structure for metadata validation.
@@ -22,6 +21,7 @@ const METADATA_SCHEMA = z.object({
   title: z.string(),
   description: z.string(),
   tags: z.array(z.string()),
+  createdAt: z.date().optional(),
 });
 
 /**
@@ -54,13 +54,13 @@ const FILE_ENCODING = "utf-8";
  *
  * @throws {Error} - Throws an error with the validation error message if the validation fails.
  */
-export const validate = (schema, data) => {
+export function validate(schema, data) {
   const result = schema.safeParse(data);
   if (result.success) {
     return result.data;
   }
   throw new Error(result.error.message);
-};
+}
 
 /**
  * Converts a relative file path to an absolute file path.
@@ -90,8 +90,9 @@ export const fileExists = (path) => fs.existsSync(path);
  * @param {string} path - The file system path to check.
  * @returns {boolean} - Returns true if the path exists and is a directory, otherwise false.
  */
-export const directoryExist = (path) =>
-  fs.existsSync(path) && fs.lstatSync(path).isDirectory();
+export function directoryExist(path) {
+  return fs.existsSync(path) && fs.lstatSync(path).isDirectory();
+}
 
 /**
  * Writes the specified content to a file at the given path.
@@ -100,11 +101,11 @@ export const directoryExist = (path) =>
  * @param {string} path - The file path where the content will be written.
  * @param {string} content - The content to write into the file.
  */
-export const writeToFile = (path, content) => {
+export function writeToFile(path, content) {
   logger.start("Writing file", path.split("/").pop());
   fs.writeFileSync(path, content);
   logger.success("File written successfully");
-};
+}
 
 /**
  * Asynchronously updates the content of a file at the specified path.
@@ -119,9 +120,9 @@ export const writeToFile = (path, content) => {
  *
  * @returns {Promise<void>} A promise that resolves when the file has been successfully updated.
  */
-export const updateFile = async (path, content) => {
+export async function updateFile(path, content) {
   return writeToFile(path, content);
-};
+}
 
 /**
  * Asynchronously creates a file with the specified content at the given path.
@@ -138,7 +139,7 @@ export const updateFile = async (path, content) => {
  *
  * @throws {Error} If an error occurs while writing to the file.
  */
-export const createFile = async (path, content) => {
+export async function createFile(path, content) {
   if (!fileExists(path)) {
     logger.info("File does not exist, creating...");
     return writeToFile(path, content);
@@ -153,7 +154,7 @@ export const createFile = async (path, content) => {
     logger.info("Overwriting file...");
     return writeToFile(path, content);
   }
-};
+}
 
 /**
  * Reads and validates metadata from a specified content file.
@@ -170,14 +171,15 @@ export const createFile = async (path, content) => {
  * @throws {Error} Will throw an error if the content file cannot be read, if metadata extraction fails,
  * or if the metadata does not conform to the expected schema.
  */
-const readAndValidateMetadata = (slug, locale) => {
+function readAndValidateMetadata(slug, locale) {
   const content = fs.readFileSync(
     toAbsolute(`content/${slug}/${locale}.mdx`),
     FILE_ENCODING,
   );
+  const stat = fs.statSync(toAbsolute(`content/${slug}/${locale}.mdx`));
   const metadata = matter(content).data;
-  return validate(METADATA_SCHEMA, metadata);
-};
+  return validate(METADATA_SCHEMA, { ...metadata, createdAt: stat.birthtime });
+}
 
 /**
  * Asynchronously collects and processes metadata from content files.
@@ -194,7 +196,7 @@ const readAndValidateMetadata = (slug, locale) => {
  * Each entry is a key-value pair where the key is a slug (string) and the
  * value is an object containing locale-specific metadata.
  */
-export const collectContentMetadata = async () => {
+export async function collectContentMetadata() {
   const metadataMap = new Map();
   const files = await glob.async(CONTENT_GLOB);
 
@@ -215,7 +217,7 @@ export const collectContentMetadata = async () => {
   });
 
   return Array.from(metadataMap.entries());
-};
+}
 
 /**
  * Prettifies the given code string using Prettier.
@@ -229,10 +231,10 @@ export const collectContentMetadata = async () => {
  *
  * @throws {Error} If an error occurs during formatting or configuration resolution.
  */
-export const prettify = async (
+export async function prettify(
   code,
   prettierOptions = { parser: "typescript" },
-) => {
+) {
   try {
     const config = (await prettier.resolveConfig(process.cwd())) || {};
     return prettier.format(code, {
@@ -242,7 +244,7 @@ export const prettify = async (
   } catch (error) {
     throw new Error(`Error prettifying code: ${error.message} (Prettier)`);
   }
-};
+}
 
 /**
  * Dynamically generates a TypeScript stub file by replacing placeholders with metadata content.
@@ -258,7 +260,7 @@ export const prettify = async (
  *
  * @throws {Error} If the stub file does not exist at the provided path.
  */
-export const generateStubContent = async (stubPath, metadataContent) => {
+export async function generateStubContent(stubPath, metadataContent) {
   if (!fileExists(stubPath)) {
     throw new Error("Stub file does not exist");
   }
@@ -270,4 +272,4 @@ export const generateStubContent = async (stubPath, metadataContent) => {
 
   // Prettify the resulting content
   return await prettify(stubContent);
-};
+}

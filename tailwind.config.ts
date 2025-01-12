@@ -1,9 +1,9 @@
 import type { Config } from "tailwindcss";
 
-import colors from "tailwindcss/colors";
-import tw from "tailwindcss/defaultTheme";
 import twTypography from "@tailwindcss/typography";
 import twAnimation from "tailwindcss-animate";
+import colors from "tailwindcss/colors";
+import tw from "tailwindcss/defaultTheme";
 
 const config: Config = {
   content: ["./src/**/*.{ts,tsx}"],

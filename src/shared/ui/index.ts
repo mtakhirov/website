@@ -1,4 +1,4 @@
 export * from "./button";
-export * from "./select";
-
 export * from "./icons";
+
+export * from "./select";

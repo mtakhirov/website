@@ -16,10 +16,11 @@
     "plugins": [{ "name": "next" }],
     "paths": {
       "@/*": ["./src/*"],
-      "#env": ["./src/env.ts"],
+      "#env": ["./src/app/env.ts"],
       "#content/*": ["./content/*"],
       "#locales/*": ["./locales/*"],
 
+      "#app/*": ["./src/app/*"],
       "#features/*": ["./src/features/*"],
       "#views/*": ["./src/views/*"],
 

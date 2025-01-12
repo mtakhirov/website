@@ -2,26 +2,26 @@
 
 import type React from "react";
 
-import Link from "next/link";
-import { useState, createContext, useEffect } from "react";
-import { useTranslations } from "next-intl";
-
-import { cn } from "#shared/utils";
-import { IconHamburger } from "#shared/ui/icons";
-import { useHeaderScroll } from "#widgets/header/hook";
 import { Button } from "#shared/ui";
-import { LanguageSwitcher, MobileMenu } from "./ui";
-
+import { IconHamburger } from "#shared/ui/icons";
+import { cn } from "#shared/utils";
 // Configs
-// import { APP_NAME } from "@/app/config";
 import { LINKS } from "#widgets/header/config";
 
-type HeaderContextProps = {
+import { useHeaderScroll } from "#widgets/header/hook";
+import { useTranslations } from "next-intl";
+
+import Link from "next/link";
+import { createContext, useEffect, useState } from "react";
+
+import { LanguageSwitcher, MobileMenu } from "./ui";
+
+interface HeaderContextProps {
   mobileMenuOpen: boolean;
   setMobileMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 
   hasScrolled: boolean;
-};
+}
 
 export const HeaderContext = createContext<HeaderContextProps | null>(null);
 
@@ -48,9 +48,7 @@ export const HeaderWidget: React.FC = () => {
   }, [mobileMenuOpen]);
 
   return (
-    <HeaderContext.Provider
-      value={{ hasScrolled, mobileMenuOpen, setMobileMenuOpen }}
-    >
+    <HeaderContext value={{ hasScrolled, mobileMenuOpen, setMobileMenuOpen }}>
       <header
         ref={headerRef}
         data-scrolled={hasScrolled}
@@ -72,10 +70,12 @@ export const HeaderWidget: React.FC = () => {
               onClick={() => setMobileMenuOpen(false)}
             >
               {/* <h3>{APP_NAME}</h3> */}
-              <h3>{`~/tkhrv`}</h3>
+              <h3>~/tkhrv</h3>
             </Link>
 
-            <span className="hidden select-none text-white/35 md:inline-block">{`#`}</span>
+            <span className="hidden select-none text-white/35 md:inline-block">
+              #
+            </span>
 
             <div className="hidden items-center gap-4 md:flex">
               {LINKS.map((link, index) => (
@@ -87,7 +87,7 @@ export const HeaderWidget: React.FC = () => {
           </div>
 
           <span className="inline-block select-none text-white/35 opacity-0 transition-opacity group-data-[mobile-menu-open=true]:opacity-0 group-data-[scrolled=true]:md:opacity-100">
-            {`/`}
+            /
           </span>
 
           <div className="flex items-center gap-4">
@@ -106,6 +106,6 @@ export const HeaderWidget: React.FC = () => {
           </div>
         </nav>
       </header>
-    </HeaderContext.Provider>
+    </HeaderContext>
   );
 };

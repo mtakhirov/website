@@ -1,7 +1,7 @@
 import type { AbstractIntlMessages } from "next-intl";
 
-import { getRequestConfig } from "next-intl/server";
 import { getUserLocale } from "#features/i18n";
+import { getRequestConfig } from "next-intl/server";
 
 interface DynamicImport {
   default: AbstractIntlMessages;

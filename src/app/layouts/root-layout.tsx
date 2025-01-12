@@ -1,12 +1,12 @@
-import type React from "react";
 import type { LayoutFC } from "@/app/layouts";
+import type React from "react";
 
-import { getLocale } from "next-intl/server";
-import { BaseLayout } from "@/app/layouts";
 import { cn } from "#shared/utils";
+import { BaseLayout } from "@/app/layouts";
+import { GeistMono } from "geist/font/mono";
 
 import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
+import { getLocale } from "next-intl/server";
 
 import "#shared/assets/css/tailwind.css";
 

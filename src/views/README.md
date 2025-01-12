@@ -19,11 +19,11 @@ These components are usually stored under the `src/views/<route>/ui/` directory.
 
 For example, the page component for the user dashboard might look like this:
 
-```typescript jsx
+```tsx
 // src/views/user/ui/dashboard-page.tsx
 export const Page: React.FC = () => {
-  return <main id="user-dashboard" />
-}
+  return <main id="user-dashboard" />;
+};
 ```
 
 ## Page Metadata
@@ -35,13 +35,13 @@ each page's corresponding route.
 
 Here’s an example of metadata for the user dashboard page:
 
-```typescript jsx
+```ts
 // src/views/user/config/metadata.ts
-import type { Metadata } from 'next'
+import type { Metadata } from "next";
 
 export const dashboardPageMetadata: Metadata = {
-  title: 'Dashboard'
-}
+  title: "Dashboard"
+};
 
 /**
  * For dynamic metadata generation:
@@ -60,11 +60,11 @@ Each page route, defined in `src/(routes)/<route>/page.tsx`, imports the
 corresponding page component and metadata, then exports them for use in the
 application.
 
-```typescript jsx
+```ts
 // src/(routes)/user/dashboard/page.tsx
-import { Page, dashboardPageMetadata } from '@/views/user'
+import { dashboardPageMetadata, Page } from "@/views/user";
 
-export default Page
+export default Page;
 export { dashboardPageMetadata as metadata };
 // For dynamic metadata generation: export { dashboardPageMetadata as generateMetadata };
 ```
@@ -79,7 +79,7 @@ The folder structure is organized as follows:
 ```
 src/
 ├── views/                    # Contains UI components and configurations for pages
-│   ├── user/                 
+│   ├── user/
 │   │   ├── ui/               # UI components for user-related pages
 │   │   │   ├── dashboard-page.tsx # Page component for user dashboard
 │   │   ├── config/           # Metadata configuration files for user pages

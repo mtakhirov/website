@@ -1,7 +1,7 @@
 import type React from "react";
 
-export { RootLayout } from "./root-layout";
 export { BaseLayout } from "./base-layout";
+export { RootLayout } from "./root-layout";
 
 interface LayoutProps<P = unknown> extends React.PropsWithChildren {
   params: Promise<P>;

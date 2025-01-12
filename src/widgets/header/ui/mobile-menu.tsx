@@ -2,14 +2,14 @@
 
 import type React from "react";
 
-import Link from "next/link";
-import { use } from "react";
-import { useTranslations } from "next-intl";
+import { cn } from "#shared/utils";
+import { LINKS } from "#widgets/header";
+import { HeaderContext } from "#widgets/header/widget";
 
 import * as Portal from "@radix-ui/react-portal";
-import { HeaderContext } from "#widgets/header/widget";
-import { LINKS } from "#widgets/header";
-import { cn } from "#shared/utils";
+import { useTranslations } from "next-intl";
+import Link from "next/link";
+import { use } from "react";
 
 import { RemoveScroll } from "react-remove-scroll";
 
@@ -18,7 +18,8 @@ export const MobileMenu: React.FC = () => {
   const t = useTranslations("Widgets.Header.links");
 
   // if (!open) return null;
-  if (!context) return null;
+  if (!context)
+    return null;
 
   return (
     <Portal.Root key="mobile-menu" asChild>

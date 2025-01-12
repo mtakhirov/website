@@ -1,9 +1,9 @@
+import { blogDetailMetadata, BlogDetailPage } from "#views/blog";
 import "#features/mdx/styles";
-import { BlogDetailPage, blogDetailMetadata } from "#views/blog";
 
 export {
-  generateBlogDetailStaticParams as generateStaticParams,
   blogDetailDynamicParams as dynamicParams,
+  generateBlogDetailStaticParams as generateStaticParams,
 } from "#views/blog/config";
 
 export const generateMetadata = blogDetailMetadata;

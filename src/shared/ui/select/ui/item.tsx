@@ -2,9 +2,9 @@
 
 import type React from "react";
 
+import { cn } from "#shared/utils";
 import * as SelectPrimitive from "@radix-ui/react-select";
 import { Check } from "lucide-react";
-import { cn } from "#shared/utils";
 
 type ItemProps = React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item> &
   React.RefAttributes<HTMLDivElement>;

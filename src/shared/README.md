@@ -45,9 +45,9 @@ To create a new shared component:
 
 Here’s how you would create a reusable button component:
 
-```typescript jsx
+```tsx
 // src/shared/ui/button/component.tsx
-import React from 'react';
+import React from "react";
 
 interface ButtonProps {
   label: string;
@@ -61,15 +61,14 @@ export const Button: React.FC<ButtonProps> = ({ label, onClick }) => {
 
 ```typescript
 // src/shared/ui/button/index.ts
-export { Button } from './component';
+export { Button } from "./component";
 ```
 
 Now, you can use the Button component anywhere in your app:
 
-```typescript jsx
-import { Button } from '@/shared/ui';
-
-<Button label="Click Me" onClick={() => alert('Button clicked!')} />
+```tsx
+import { Button } from "@/shared/ui";
+<Button label="Click Me" onClick={() => alert("Button clicked!")} />;
 ```
 
 ## Folder Structure

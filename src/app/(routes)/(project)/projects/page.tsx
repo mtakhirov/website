@@ -1,4 +1,4 @@
-import { ProjectListPage, projectListMetadata } from "#views/project";
+import { projectListMetadata, ProjectListPage } from "#views/project";
 
 export const metadata = projectListMetadata;
 export default ProjectListPage;

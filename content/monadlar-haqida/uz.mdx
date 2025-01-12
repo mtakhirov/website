@@ -1,7 +1,144 @@
 ---
-title: Monadlar
-description: Desc
-tags: [post, functional-programming]
+title: "Monadlar: Qiyinchiliklarni oddiy yechimlar bilan yengish"
+description:
+  "Dasturlashda sodda ko'ringan muammolar ko'p hollarda murakkab kodlarga olib kelishi mumkin.
+  Monadlar – funksional dasturlashdagi muhim tushunchalardan biri bo'lib, murakkablikni soddalashtirishda
+  yordam beradi."
+
+tags: [functional-programming, monads]
 ---
 
-# Monadlar haqida
+Dasturlashda sodda ko'ringan muammolar ko'p hollarda murakkab kodlarga olib kelishi mumkin.
+Monadlar - funksional dasturlashdagi muhim tushunchalardan biri bo'lib, murakkablikni
+soddalashtirishda yordam beradi. Ushbu blog postda TypeScript orqali monadlar nima ekanligi va
+ularni qanday qilib qo'llashimiz mumkinligi haqida gurunglashamiz.
+
+## **Monadlar o'zi nima?**
+
+Tasavvur qilaylik, do'kondan meva sotib olmoqchimiz, lekin ayrim mevalar yaroqsiz bo'lishi mumkin.
+Biz bu mevalarni tekshirib, faqat yaroqlilarini saralab olamiz. Monadlar ham dasturlashda shunga
+o'xshash vazifani bajari – ular bizga qiymatlarni tekshirish va xatolarni boshqarishda katta yordam
+beradi.
+
+```ts
+class Maybe<T> {
+  private constructor(private value: T | null) {}
+
+  static some<T>(value: T): Maybe<T> {
+    return new Maybe(value);
+  }
+
+  static none<T>(): Maybe<T> {
+    return new Maybe<T>(null);
+  }
+
+  map<R>(fn: (value: T) => R): Maybe<R> {
+    if (this.value === null) {
+      return Maybe.none<R>();
+    }
+    return Maybe.some(fn(this.value));
+  }
+
+  unwrap(): T {
+    if (this.value === null) {
+      throw new Error("Error occurred while unwrapping value");
+    }
+    return this.value;
+  }
+
+  unwrapOrElse(defaultValue: T): T {
+    return this.value === null ? defaultValue : this.value;
+  }
+}
+```
+
+Yuqoridagi kodda `Maybe` monadi yozilgan. Ushbu monad `nullable` qiymatlar bilan ishlashda
+yordam beruvchi oddiy monad hisoblanadi. Agar qiymat mavjud bo'lsa `map` funksiyasi uni
+o'zgartiradi. Agar qiymat `null` bo'lsa, hech narsa qilinmaydi.
+
+`Maybe` monadi - TypeScriptda monad yaratishning eng boshlang'ich nuqtasi. Bu monad bizga
+kodni yanada tushunarli va xavfsiz qilishda yordam beradi. Misollar orqali ko'rib chiqaylik:
+
+```ts
+async function getUserBooks(): Book[] | undefined {
+  const user: User | undefined = await fetch("<API_ENDPOINT>")
+    .then((response) => response.json())
+    .then((data) => data.user);
+
+  if (!user) {
+    console.error("User not found");
+    return undefined;
+  }
+
+  const userPurchases: Purchase[] | undefined = getUserPurchases(user);
+  if (!userPurchases) {
+    console.error("Purchases not found");
+    return;
+  }
+
+  const userBooks: Book[] | undefined = getPurchasedBooks(userPurchases);
+  if (!userBooks) {
+    console.error("Purchases not found");
+    return undefined;
+  }
+
+  return userBooks;
+}
+
+const books = await getUserBooks();
+if (!books) {
+  /* ... */
+}
+```
+
+Yuqoridagi kodda biz userning sotib olgan kitoblarini olish funksiyasini yozdik.
+Kod nisbatan yaxshi, xatoliklar oldini olib yozilgan, lekin, buni monadlar orqali
+yanada soddalashtirish mumkin!
+
+```ts
+async function getUserBooks(): Promise<Book[]> {
+  const user: Maybe<User> = await fetch("<API_ENDPOINT>")
+    .then((response) => response.json())
+    .then((data) => Maybe.some(data.user))
+    .catch(() => Maybe.none<User>());
+
+  const purchases = user.map(getUserPurchases);
+  const books = purchases.map(getPurchasedBooks);
+
+  return books.unwrapOrElse([]);
+}
+
+const books = await getUserBooks();
+// ...
+```
+
+Yokida ortiqcha o'zgaruvchilar ishlatmasdan:
+
+```ts
+async function getUserBooks(): Promise<Book[]> {
+  const user: Maybe<User> = await fetch("<API_ENDPOINT>")
+    .then((response) => response.json())
+    .then((data) => Maybe.some(data.user))
+    .catch(() => Maybe.none<User>());
+
+  return user
+    .map(getUserPurchases) // [!code highlight]
+    .map(getPurchasedBooks) // [!code highlight]
+    .unwrapOrElse([]);
+}
+
+const books = await getUserBooks();
+// ...
+```
+
+## **Monadlarning afzallik va kamchiliklari:**
+
+Monadlar kodning xavfsizligini oshiradi va xatolarni boshqarishni osonlashtiradi.
+Kamchiligi bo'lsa monadlarni o'rganish boshida qiyin bo'lishi mumkin va boshlang'ich
+dasturchilar uchun bu konsepsiya juda murakkab tuyiladi.
+
+## **TL;DR:**
+
+Monadlar dasturiy ta'minotni yanada kuchli va xavfsiz qilish uchun ajoyib vosita.
+Hullas o'rganishga arziydi! Amma, ularni o'rganish davomida boshingiz qotishi mumkin
+bu normal holat. Vaqt o'tishi bilan kod yozish jarayonida qulaylikni seza boshlaysiz.

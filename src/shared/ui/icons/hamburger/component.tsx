@@ -1,5 +1,5 @@
-import type React from "react";
 import type { IconProps } from "#shared/ui/icons";
+import type React from "react";
 
 import { cn } from "#shared/utils";
 

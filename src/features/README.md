@@ -43,6 +43,7 @@ To create a new feature:
    related to authentication, i18n, logging, etc.
 
 2. **Structure the Feature:**
+
    - Create subdirectories like `config/`, `helper/`, and `plugin/` for the
      feature.
    - Add configuration files, helper functions, and optional plugin code.
@@ -56,21 +57,21 @@ might have a feature structure like this:
 ```typescript
 // src/features/i18n/config/locale.ts
 
-export const defaultLocale = 'en';
-export const availableLocales = ['en', 'es', 'fr'];
+export const defaultLocale = "en";
+export const availableLocales = ["en", "es", "fr"];
 ```
 
 ```typescript
 // src/features/i18n/helper/get-locale.ts
-export const getLocale = () => {
-  return localStorage.getItem('locale') || 'en';
-};
+export function getLocale() {
+  return localStorage.getItem("locale") || "en";
+}
 ```
 
 ```typescript
+import { defaultLocale } from "../config/locale";
 // src/features/i18n/plugin/init.ts
-import { getLocale } from '../helper/get-locale';
-import { defaultLocale } from '../config/locale';
+import { getLocale } from "../helper/get-locale";
 
 export default function initI18n() {
   const locale = getLocale();
@@ -79,9 +80,9 @@ export default function initI18n() {
 ```
 
 ```typescript
+export { getLocale } from "./helper/get-locale";
 // src/features/i18n/index.ts
-export { initI18n } from './plugin/init';
-export { getLocale } from './helper/get-locale';
+export { initI18n } from "./plugin/init";
 ```
 
 Now, you can import and use the getLocale helper wherever needed in your

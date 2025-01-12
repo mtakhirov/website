@@ -1,13 +1,13 @@
 "use client";
 
-import type React from "react";
 import type { Locale } from "#features/i18n";
+import type React from "react";
 
-import { startTransition } from "react";
-import { useLocale, useTranslations } from "next-intl";
 import { locales, setUserLocale } from "#features/i18n";
-import { LanguagesIcon } from "lucide-react";
 import { Select } from "#shared/ui";
+import { LanguagesIcon } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { startTransition } from "react";
 
 export const LanguageSwitcher: React.FC = () => {
   const t = useTranslations("Widgets.Header");
@@ -31,7 +31,7 @@ export const LanguageSwitcher: React.FC = () => {
         <LanguagesIcon />
       </Select.Trigger>
       <Select.Content>
-        {locales.map((locale) => (
+        {locales.map(locale => (
           <Select.Item key={`locale-${locale}`} value={locale}>
             {t("locale", { locale })}
           </Select.Item>

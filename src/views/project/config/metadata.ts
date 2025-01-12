@@ -4,6 +4,6 @@ export const projectListMetadata: Metadata = {
   title: "Projects list",
 };
 
-export const projectDetailMetadata = async (): Promise<Metadata> => {
+export async function projectDetailMetadata(): Promise<Metadata> {
   return { title: "Project detail" };
-};
+}

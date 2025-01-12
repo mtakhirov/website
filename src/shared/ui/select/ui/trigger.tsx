@@ -1,18 +1,18 @@
 "use client";
 
-import type React from "react";
 import type { VariantProps } from "cva";
+import type React from "react";
 
-import * as SelectPrimitive from "@radix-ui/react-select";
 import { triggerVariant } from "#shared/ui/select/variant";
-import { ChevronDown } from "lucide-react";
 import { cn } from "#shared/utils";
+import * as SelectPrimitive from "@radix-ui/react-select";
+import { ChevronDown } from "lucide-react";
 
 type TriggerProps = React.ComponentPropsWithoutRef<
   typeof SelectPrimitive.Trigger
 > &
-  React.RefAttributes<HTMLButtonElement> &
-  VariantProps<typeof triggerVariant>;
+React.RefAttributes<HTMLButtonElement> &
+VariantProps<typeof triggerVariant>;
 
 export const Trigger: React.FC<TriggerProps> = ({
   size,

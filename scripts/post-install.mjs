@@ -1,10 +1,10 @@
 import logger from "consola";
 import {
-  toAbsolute,
+  collectContentMetadata,
   createFile,
   fileExists,
-  collectContentMetadata,
   generateStubContent,
+  toAbsolute,
 } from "./helpers.mjs";
 
 /**
@@ -26,7 +26,7 @@ const constants = {
  *
  * @param {string} stubPath - The path to a stub file used for generating the file content.
  * @param {string} targetPath - The path where the metadata file should be created.
- * @param {Object} stringifyOptions - Options for JSON stringification, including `replacer` and `space`.
+ * @param {object} stringifyOptions - Options for JSON stringification, including `replacer` and `space`.
  *
  * @return {Promise<void>} A promise that resolves when the operation is complete,
  * or skips if the file already exists.
@@ -36,7 +36,8 @@ async function createOrSkipMetadataFile(
   targetPath,
   stringifyOptions,
 ) {
-  if (fileExists(targetPath)) return;
+  if (fileExists(targetPath))
+    return;
 
   const metadata = await collectContentMetadata();
   const metadataContent = JSON.stringify(
@@ -64,7 +65,8 @@ async function main() {
       constants.JSON_STRINGIFY_OPTIONS,
     );
     logger.success("Post-install script completed successfully");
-  } catch (error) {
+  }
+  catch (error) {
     logger.error("Failed to run post-install script", error);
   }
 }

@@ -1,7 +1,7 @@
-import type React from "react";
 import type { VariantProps } from "cva";
+import type React from "react";
 
-import { buttonVariants } from "./variant";
+import type { buttonVariants } from "./variant";
 
 export { Button } from "./component";
 export { buttonVariants } from "./variant";

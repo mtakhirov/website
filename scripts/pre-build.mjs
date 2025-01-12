@@ -1,16 +1,16 @@
 import logger from "consola";
 import {
-  toAbsolute,
-  updateFile,
   collectContentMetadata,
   generateStubContent,
+  toAbsolute,
+  updateFile,
 } from "./helpers.mjs";
 
 /**
  * A collection of constant values used throughout the application.
  *
  * @constant
- * @type {Object}
+ * @type {object}
  */
 const constants = {
   STUB_FILE: toAbsolute("scripts/stubs/metadata.stub"),
@@ -54,7 +54,8 @@ async function main() {
   try {
     await writeMetadataFile();
     logger.success("Pre-build script completed successfully.");
-  } catch (error) {
+  }
+  catch (error) {
     logger.error("Failed to run pre-build script", error);
   }
 }

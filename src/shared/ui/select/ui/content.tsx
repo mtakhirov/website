@@ -2,14 +2,14 @@
 
 import type React from "react";
 
-import * as SelectPrimitive from "@radix-ui/react-select";
 import { cn } from "#shared/utils";
+import * as SelectPrimitive from "@radix-ui/react-select";
 
 type ContentProps = Omit<
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>,
   "position"
 > &
-  React.RefAttributes<HTMLDivElement>;
+React.RefAttributes<HTMLDivElement>;
 
 export const Content: React.FC<ContentProps> = ({
   className,

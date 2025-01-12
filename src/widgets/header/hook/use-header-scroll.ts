@@ -2,13 +2,13 @@
 
 import type React from "react";
 
-import { useCallback, useState, useRef, useEffect } from "react";
 import {
-  SPACE_SIZE,
-  PADDING,
   GAP,
+  PADDING,
   PROPERTY_NAME,
+  SPACE_SIZE,
 } from "#widgets/header/config";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface UseHeaderScroll {
   hasScrolled: boolean;
@@ -16,13 +16,14 @@ interface UseHeaderScroll {
   navRef: React.RefObject<HTMLElement | null>;
 }
 
-export const useHeaderScroll = (): UseHeaderScroll => {
+export function useHeaderScroll(): UseHeaderScroll {
   const [hasScrolled, setHasScrolled] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const navRef = useRef<HTMLElement>(null);
 
   const calculateNavWidth = useCallback((isScrolled: boolean): string => {
-    if (!isScrolled || !navRef.current) return "100%";
+    if (!isScrolled || !navRef.current)
+      return "100%";
 
     const elementsWidth = Array.from(navRef.current.children)
       .filter((child): child is HTMLElement => child instanceof HTMLElement)
@@ -35,10 +36,12 @@ export const useHeaderScroll = (): UseHeaderScroll => {
   }, []);
 
   const onScroll = useCallback(() => {
-    if (!headerRef.current) return;
+    if (!headerRef.current)
+      return;
 
     const isScrolled = window.scrollY >= SPACE_SIZE;
-    if (hasScrolled && isScrolled) return;
+    if (hasScrolled && isScrolled)
+      return;
 
     headerRef.current.style.setProperty(
       PROPERTY_NAME,
@@ -55,4 +58,4 @@ export const useHeaderScroll = (): UseHeaderScroll => {
   }, [onScroll]);
 
   return { headerRef, navRef, hasScrolled };
-};
+}
