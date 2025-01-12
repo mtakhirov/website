@@ -8,11 +8,11 @@ layouts, routes, and pages.
 ## **Table of Contents**
 
 1. [Layouts](#layouts)
-    - [Using Layouts in Pages](#using-layouts-in-pages)
+   - [Using Layouts in Pages](#using-layouts-in-pages)
 2. [Pages](#pages)
-    - [Page Component](#example-of-a-page-component)
-    - [Page Metadata](#example-of-a-metadata-configuration)
-    - [Combining Page and Metadata](#combining-page-and-metadata)
+   - [Page Component](#example-of-a-page-component)
+   - [Page Metadata](#example-of-a-metadata-configuration)
+   - [Combining Page and Metadata](#combining-page-and-metadata)
 3. [Folder Structure](#folder-structure)
 
 ## **Layouts**
@@ -24,11 +24,11 @@ specific pages or routes.
 
 Example of a layout component:
 
-```typescript jsx
+```tsx
 // src/layouts/user-dashboard-layout.tsx
 export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
-  return <section id="user-dashboard">{children}</section>
-}
+  return <section id="user-dashboard">{children}</section>;
+};
 ```
 
 In this example, user-dashboard-layout.tsx defines a layout for a user
@@ -40,11 +40,10 @@ inside this layout.
 In the corresponding route, we import the layout and export it as the default
 layout for the page:
 
-```typescript jsx
+```tsx
 // src/(routes)/user/dashboard/layout.tsx
-import { Layout } from '@/app/layouts/user-dashboard-layout'
-
-export default Layout
+import { Layout } from "@/app/layouts/user-dashboard-layout";
+export default Layout;
 ```
 
 This file links the layout to the user/dashboard route.
@@ -57,22 +56,22 @@ configuration files within the `src/views/` directory.
 
 ### Example of a page component:
 
-```typescript jsx
+```tsx
 // src/views/user/ui/user-dashboard-page.ts
 export const Page: React.FC = () => {
-  return <main id="user-dashboard" />
-}
+  return <main id="user-dashboard" />;
+};
 ```
 
 ### Example of a metadata configuration:
 
 ```typescript jsx
 // src/views/user/config/metadata.ts
-import type { Metadata } from 'next'
+import type { Metadata } from "next";
 
 export const dashboardPageMetadata: Metadata = {
-  title: 'Dashboard'
-}
+  title: "Dashboard"
+};
 
 /**
  * For dynamic metadata generation:
@@ -93,9 +92,9 @@ metadata for the route:
 
 ```typescript jsx
 // src/(routes)/user/dashboard/page.tsx
-import { Page, dashboardPageMetadata } from '@/views/user'
+import { dashboardPageMetadata, Page } from "@/views/user";
 
-export default Page
+export default Page;
 export { dashboardPageMetadata as metadata };
 // For dynamic metadata: export { dashboardPageMetadata as generateMetadata };
 ```
@@ -115,7 +114,7 @@ src/
 │   ├── layouts/              # All layout components
 │   │   ├── user-dashboard-layout.tsx # Layout for user dashboard
 ├── views/                # All UI and config files for pages
-│   ├── user/             
+│   ├── user/
 │   │   ├── ui/
 │   │   │   ├── dashboard-page.tsx # Dashboard page component
 │   │   ├── config/

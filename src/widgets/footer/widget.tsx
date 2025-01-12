@@ -1,7 +1,7 @@
 import type React from "react";
 
-import Link from "next/link";
 import { MoveUpRightIcon } from "lucide-react";
+import Link from "next/link";
 
 export const FooterWidget: React.FC = () => {
   return (

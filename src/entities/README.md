@@ -53,23 +53,23 @@ export interface Customer {
 
 ```typescript
 // src/entities/user/api/register.ts
-import { Customer } from '../model/customer';
+import { Customer } from "../model/customer";
 
-export const registerUser = async (userData: Customer) => {
+export async function registerUser(userData: Customer) {
   // API call to register a user
-  const response = await fetch('/api/register', {
-    method: 'POST',
+  const response = await fetch("/api/register", {
+    method: "POST",
     body: JSON.stringify(userData),
   });
 
   return response.json();
-};
+}
 ```
 
 ```typescript
 // src/entities/user/index.ts
-export { registerUser } from './api/register';
-export { Customer } from './model/customer';
+export { registerUser } from "./api/register";
+export { Customer } from "./model/customer";
 ```
 
 Now, you can import and use the `registerUser` function or the `Customer` model

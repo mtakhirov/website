@@ -1,0 +1,3 @@
+import type { PostMetadata } from "#features/mdx";
+
+export default <PostMetadata>{{ METADATA }};

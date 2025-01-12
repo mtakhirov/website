@@ -1,0 +1,137 @@
+---
+title: "Monads: Tackling Complexity with Simple Solutions"
+description:
+  "In programming, seemingly simple problems can often lead to complex code.
+  Monads, a key concept in functional programming, help simplify complexity
+  and make code more manageable."
+
+tags: [functional-programming, monads]
+---
+
+In programming, seemingly simple problems can often lead to complex code. Monads, a key concept in functional programming, help simplify complexity and make code more manageable. In this blog post, we'll dive into what monads are and how we can use them in TypeScript.
+
+## **What Are Monads?**
+
+Imagine you want to buy fruits from a store, but some fruits might be spoiled. You carefully check them and pick only the good ones. Monads in programming perform a similar task – they help us manage values and handle errors gracefully.
+
+```ts
+class Maybe<T> {
+  private constructor(private value: T | null) {}
+
+  static some<T>(value: T): Maybe<T> {
+    return new Maybe(value);
+  }
+
+  static none<T>(): Maybe<T> {
+    return new Maybe<T>(null);
+  }
+
+  map<R>(fn: (value: T) => R): Maybe<R> {
+    if (this.value === null) {
+      return Maybe.none<R>();
+    }
+    return Maybe.some(fn(this.value));
+  }
+
+  unwrap(): T {
+    if (this.value === null) {
+      throw new Error("Error occurred while unwrapping value");
+    }
+    return this.value;
+  }
+
+  unwrapOrElse(defaultValue: T): T {
+    return this.value === null ? defaultValue : this.value;
+  }
+}
+```
+
+The above code demonstrates the `Maybe` monad. This simple monad is designed to handle
+`nullable` values. If a value exists, the `map` function transforms it. If the value
+is `null`, it does nothing.
+
+The `Maybe` monad is an entry point to building monads in TypeScript. It helps make our
+code more understandable and safer. Let's see some examples:
+
+```ts
+async function getUserBooks(): Book[] | undefined {
+  const user: User | undefined = await fetch("<API_ENDPOINT>")
+    .then((response) => response.json())
+    .then((data) => data.user);
+
+  if (!user) {
+    console.error("User not found");
+    return undefined;
+  }
+
+  const userPurchases: Purchase[] | undefined = getUserPurchases(user);
+  if (!userPurchases) {
+    console.error("Purchases not found");
+    return;
+  }
+
+  const userBooks: Book[] | undefined = getPurchasedBooks(userPurchases);
+  if (!userBooks) {
+    console.error("Books not found");
+    return undefined;
+  }
+
+  return userBooks;
+}
+
+const books = await getUserBooks();
+if (!books) {
+  /* ... */
+}
+```
+
+The code above fetches the books purchased by a user. While this approach works and
+accounts for errors, we can simplify it further with monads!
+
+```ts
+async function getUserBooks(): Promise<Book[]> {
+  const user: Maybe<User> = await fetch("<API_ENDPOINT>")
+    .then((response) => response.json())
+    .then((data) => Maybe.some(data.user))
+    .catch(() => Maybe.none<User>());
+
+  const purchases = user.map(getUserPurchases);
+  const books = purchases.map(getPurchasedBooks);
+
+  return books.unwrapOrElse([]);
+}
+
+const books = await getUserBooks();
+// ...
+```
+
+Alternatively, without using extra variables:
+
+```ts
+async function getUserBooks(): Promise<Book[]> {
+  const user: Maybe<User> = await fetch("<API_ENDPOINT>")
+    .then((response) => response.json())
+    .then((data) => Maybe.some(data.user))
+    .catch(() => Maybe.none<User>());
+
+  return user
+    .map(getUserPurchases) // [!code highlight]
+    .map(getPurchasedBooks) // [!code highlight]
+    .unwrapOrElse([]);
+}
+
+const books = await getUserBooks();
+// ...
+```
+
+## **Advantages and Disadvantages of Monads:**
+
+- **Advantages:** Monads improve code safety and simplify error handling.
+- **Disadvantages:** Learning monads can be challenging, especially for beginners,
+  as the concept may seem complex initially.
+
+## **TL;DR:**
+
+Monads are an excellent tool for creating more robust and secure software.
+They are worth learning, but don’t be discouraged if they seem tricky at first.
+Over time, you’ll notice how they make the coding process more convenient.

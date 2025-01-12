@@ -1,9 +1,9 @@
-import type React from "react";
 import type { LayoutFC } from "@/app/layouts";
+import type React from "react";
 
-import { getMessages } from "next-intl/server";
-import { NextIntlClientProvider } from "next-intl";
 import { FooterWidget, HeaderWidget } from "#widgets";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
 
 export const BaseLayout: LayoutFC = async ({ children }) => {
   const messages = await getMessages();

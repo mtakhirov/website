@@ -1,7 +1,7 @@
 import type React from "react";
 
-import { getTranslations } from "next-intl/server";
 import { translationFormats } from "#views/home";
+import { getTranslations } from "next-intl/server";
 
 export const HomePage: React.FC = async () => {
   const t = await getTranslations("Home");
@@ -13,6 +13,9 @@ export const HomePage: React.FC = async () => {
       <p className="mt-1 font-mono text-sm font-light text-white/70 md:text-base [&_b]:font-semibold [&_b]:text-white">
         {t.rich("description", translationFormats)}
       </p>
+
+      <img />
+      <script></script>
 
       <p className="mt-4 font-mono text-xs font-extralight text-white/50 md:text-sm [&_b]:font-medium">
         {t.rich("fun-fact", translationFormats)}

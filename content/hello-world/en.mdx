@@ -1,0 +1,184 @@
+---
+title: "Hello World"
+description: "Description message"
+tags: [post, example]
+---
+
+### **Headings:**
+
+# H1 Example
+
+## H2 Example
+
+### H3 Example
+
+#### H4 Example
+
+##### H5 Example
+
+###### H6 Example
+
+### **Paragraph:**
+
+Quis fugiat ea fugiat consectetur id magna occaecat cillum irure. Sunt ullamco ex id esse Lorem eu deserunt anim non ut minim. Ipsum sunt sint ea laboris nulla et minim quis aliqua nostrud culpa ex. Exercitation deserunt dolor nisi voluptate minim. Sint ipsum in anim tempor fugiat.
+
+### **Unordered List:**
+
+- Unordered List #1
+- Unordered List #2
+- Unordered List #3
+
+### **Ordered List:**
+
+1. Ordered List #1
+2. Ordered List #2
+3. Ordered List #3
+
+### **Checkbox List:**
+
+- [x] Checked list input
+- [ ] Unchecked list input
+
+### **Table:**
+
+_Left aligned:_
+
+| id  | title                 | description    |         slug          |      created_at |      updated_at |
+| :-: | :-------------------- | :------------- | :-------------------: | --------------: | --------------: |
+|  1  | Salom Dunyo           | Lorem...       |      salom-dunyo      | Tue Sep 11 2001 | Tue Sep 11 2001 |
+|  2  | Funksional dasturlash | Lorem ipsum... | funksional-dasturlash | Fri Aug 27 2004 | Fri Aug 27 2004 |
+
+### **Image:**
+
+![Image alt text](https://images-porsche.imgix.net/-/media/0B3F90A75B0141FF8BED694C3C1A323B_7C02423B08CB49C8801E208B2D16A51E_CZ25W18OX0004-911-gt3-white-side?w=2560&h=1440&q=45&crop=faces%2Centropy%2Cedges&auto=format)
+
+### **Code Blocks:**
+
+```tsx filename="button.tsx"
+export const Button: React.FC = (props) => {
+  return <button {...props} />;
+};
+```
+
+### **Code Block (with focus)**
+
+```tsx filename="button.tsx"
+import type React from "react";
+
+import { cn } from "#shared/utils";
+import { buttonVariants, type ButtonProps } from "./variants";
+
+// [!code focus:10]
+export const Button: React.FC<ButtonProps> = ({
+  variant,
+  size,
+  className,
+  ...props
+}) => {
+  const buttonClassNames = cn(buttonVariants({ variant, size }), className);
+  return <button className={buttonClassNames} {...props} />;
+};
+Button.displayName = "Button component";
+```
+
+### **Code Block (with diff)**
+
+```tsx filename="button.tsx"
+import type React from "react";
+
+import { cn } from "#shared/utils";
+import { buttonVariants, type ButtonProps } from "./variants";
+
+export const Button: React.FC<ButtonProps> = ({
+  variant,
+  size,
+  className,
+  ...props // [!code --]
+  ...restProps // [!code ++]
+}) => {
+  const buttonClassNames = cn(buttonVariants({ variant, size }), className);
+  return <button className={buttonClassNames} {...props} />; // [!code --]
+  return <button className={buttonClassNames} {...restProps} />; // [!code ++]
+};
+Button.displayName = "Button component";
+```
+
+### **Alerts:**
+
+> [!NOTE]
+> Tempor aliquip ad consectetur cillum exercitation anim. Exercitation ex esse quis ut nisi labore
+> eiusmod ipsum commodo exercitation cillum ut. Aliqua enim aliqua eu in do. Dolor qui minim occaecat
+> esse sit reprehenderit id. Velit culpa magna esse excepteur aute reprehenderit minim qui veniam mollit
+> nostrud et. Aliqua sit aute nisi voluptate culpa exercitation laboris.
+
+_With custom title:_
+
+> [!NOTE/Eslatma]
+> Tempor aliquip ad consectetur cillum exercitation anim. Exercitation ex esse quis ut nisi labore
+> eiusmod ipsum commodo exercitation cillum ut. Aliqua enim aliqua eu in do. Dolor qui minim occaecat
+> esse sit reprehenderit id. Velit culpa magna esse excepteur aute reprehenderit minim qui veniam mollit
+> nostrud et. Aliqua sit aute nisi voluptate culpa exercitation laboris.
+
+---
+
+> [!TIP]
+> Tempor aliquip ad consectetur cillum exercitation anim. Exercitation ex esse quis ut nisi labore
+> eiusmod ipsum commodo exercitation cillum ut. Aliqua enim aliqua eu in do. Dolor qui minim occaecat
+> esse sit reprehenderit id. Velit culpa magna esse excepteur aute reprehenderit minim qui veniam mollit
+> nostrud et. Aliqua sit aute nisi voluptate culpa exercitation laboris.
+
+_With custom title:_
+
+> [!TIP/Maslahat]
+> Tempor aliquip ad consectetur cillum exercitation anim. Exercitation ex esse quis ut nisi labore
+> eiusmod ipsum commodo exercitation cillum ut. Aliqua enim aliqua eu in do. Dolor qui minim occaecat
+> esse sit reprehenderit id. Velit culpa magna esse excepteur aute reprehenderit minim qui veniam mollit
+> nostrud et. Aliqua sit aute nisi voluptate culpa exercitation laboris.
+
+---
+
+> [!IMPORTANT]
+> Tempor aliquip ad consectetur cillum exercitation anim. Exercitation ex esse quis ut nisi labore
+> eiusmod ipsum commodo exercitation cillum ut. Aliqua enim aliqua eu in do. Dolor qui minim occaecat
+> esse sit reprehenderit id. Velit culpa magna esse excepteur aute reprehenderit minim qui veniam mollit
+> nostrud et. Aliqua sit aute nisi voluptate culpa exercitation laboris.
+
+_With custom title:_
+
+> [!IMPORTANT/Muhim]
+> Tempor aliquip ad consectetur cillum exercitation anim. Exercitation ex esse quis ut nisi labore
+> eiusmod ipsum commodo exercitation cillum ut. Aliqua enim aliqua eu in do. Dolor qui minim occaecat
+> esse sit reprehenderit id. Velit culpa magna esse excepteur aute reprehenderit minim qui veniam mollit
+> nostrud et. Aliqua sit aute nisi voluptate culpa exercitation laboris.
+
+---
+
+> [!WARNING]
+> Tempor aliquip ad consectetur cillum exercitation anim. Exercitation ex esse quis ut nisi labore
+> eiusmod ipsum commodo exercitation cillum ut. Aliqua enim aliqua eu in do. Dolor qui minim occaecat
+> esse sit reprehenderit id. Velit culpa magna esse excepteur aute reprehenderit minim qui veniam mollit
+> nostrud et. Aliqua sit aute nisi voluptate culpa exercitation laboris.
+
+_With custom title:_
+
+> [!WARNING/Ogohlantirish]
+> Tempor aliquip ad consectetur cillum exercitation anim. Exercitation ex esse quis ut nisi labore
+> eiusmod ipsum commodo exercitation cillum ut. Aliqua enim aliqua eu in do. Dolor qui minim occaecat
+> esse sit reprehenderit id. Velit culpa magna esse excepteur aute reprehenderit minim qui veniam mollit
+> nostrud et. Aliqua sit aute nisi voluptate culpa exercitation laboris.
+
+---
+
+> [!CAUTION]
+> Tempor aliquip ad consectetur cillum exercitation anim. Exercitation ex esse quis ut nisi labore
+> eiusmod ipsum commodo exercitation cillum ut. Aliqua enim aliqua eu in do. Dolor qui minim occaecat
+> esse sit reprehenderit id. Velit culpa magna esse excepteur aute reprehenderit minim qui veniam mollit
+> nostrud et. Aliqua sit aute nisi voluptate culpa exercitation laboris.
+
+_With custom title:_
+
+> [!CAUTION/Ehtiyot bo'ling]
+> Tempor aliquip ad consectetur cillum exercitation anim. Exercitation ex esse quis ut nisi labore
+> eiusmod ipsum commodo exercitation cillum ut. Aliqua enim aliqua eu in do. Dolor qui minim occaecat
+> esse sit reprehenderit id. Velit culpa magna esse excepteur aute reprehenderit minim qui veniam mollit
+> nostrud et. Aliqua sit aute nisi voluptate culpa exercitation laboris.

@@ -1,8 +1,8 @@
-import type React from "react";
 import type { ButtonProps } from "#shared/ui/button";
+import type React from "react";
 
-import { cn } from "#shared/utils";
 import { buttonVariants } from "#shared/ui/button";
+import { cn } from "#shared/utils";
 
 export const Button: React.FC<ButtonProps> = (props) => {
   const { variant, size, className, ...restProps } = props;

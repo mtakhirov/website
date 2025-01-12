@@ -1,0 +1,42 @@
+.shiki {
+  @apply overflow-scroll;
+  @apply border border-white/10;
+}
+.shiki code {
+  counter-reset: step;
+  counter-increment: step 0;
+}
+.shiki code .line::before {
+  content: counter(step);
+  counter-increment: step;
+  @apply mr-6 inline-block w-4 text-right text-white/25;
+}
+.shiki .line {
+  @apply block transition duration-200;
+}
+
+/* Focus Transformer */
+.shiki.has-focused {
+}
+.shiki.has-focused > code > .line {
+  @apply blur-sm;
+}
+.shiki.has-focused:hover > code > .line,
+.shiki.has-focused > code > .line.focused {
+  @apply blur-0;
+}
+
+/* Diff Transformer */
+.shiki.has-diff {
+}
+.shiki.has-diff > code > .line.diff::before {
+  content: var(--symbol);
+}
+.shiki.has-diff > code > .line.diff.remove {
+  --symbol: "-";
+  @apply bg-red-400/25;
+}
+.shiki.has-diff > code > .line.diff.add {
+  --symbol: "+";
+  @apply bg-green-400/25;
+}

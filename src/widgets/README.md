@@ -55,42 +55,43 @@ Here’s how a widget is created:
 
 For example:
 
-```typescript jsx
+```tsx
 // src/widgets/header/ui/language-switcher.tsx
 export const LanguageSwitcher: React.FC = () => {
-  return <div>Language Switcher Component</div>
-}
+  return <div>Language Switcher Component</div>;
+};
 ```
 
-```typescript jsx
+```tsx
 // src/widgets/header/hook/use-header-scroll.tsx
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react";
 
-export const useHeaderScroll = () => {
-  const [isScrolled, setIsScrolled] = useState(false)
+export function useHeaderScroll() {
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
-    }
+      setIsScrolled(window.scrollY > 50);
+    };
 
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
-  return { isScrolled }
+  return { isScrolled };
 }
 ```
 
 Now, in the widget.tsx file, combine them:
 
-```typescript jsx
+```tsx
 // src/widgets/header/widget.tsx
-import { LanguageSwitcher } from './ui/language-switcher'
-import { useHeaderScroll } from './hook/use-header-scroll'
+
+import { useHeaderScroll } from "./hook/use-header-scroll";
+import { LanguageSwitcher } from "./ui/language-switcher";
 
 export default function Widget() {
   const { isScrolled } = useHeaderScroll();
@@ -102,7 +103,7 @@ export default function Widget() {
         <LanguageSwitcher />
       </nav>
     </header>
-  )
+  );
 }
 ```
 

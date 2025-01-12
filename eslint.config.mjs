@@ -1,93 +1,52 @@
-import js from "@eslint/js";
-import globals from "globals";
-import path from "node:path";
-import { fixupConfigRules, fixupPluginRules } from "@eslint/compat";
-import { FlatCompat } from "@eslint/eslintrc";
-import { fileURLToPath } from "node:url";
+import defineConfig from "@antfu/eslint-config";
 
-// Config/Plugins
-import typescriptEslint from "@typescript-eslint/eslint-plugin";
-import tsParser from "@typescript-eslint/parser";
-import reactHooks from "eslint-plugin-react-hooks";
+/** Plugins */
+import next from "@next/eslint-plugin-next";
 import tailwindcss from "eslint-plugin-tailwindcss";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
-});
 
 const twOptions = {
   callees: ["clsx", "cva", "cn"],
   classRegex: "^class(Name)?$",
 };
 
-const config = [
-  ...fixupConfigRules(
-    compat.extends(
-      "eslint:recommended",
-      "next",
-      "next/typescript",
-      "next/core-web-vitals",
-      "plugin:jsx-a11y/recommended",
-      "plugin:tailwindcss/recommended",
-      "plugin:prettier/recommended",
-      "prettier",
-    ),
-  ),
+export default defineConfig(
   {
-    plugins: {
-      "react-hooks": fixupPluginRules(reactHooks),
-      "@typescript-eslint": fixupPluginRules(typescriptEslint),
-      "tailwindcss": fixupPluginRules(tailwindcss),
+    jsx: true,
+    jsonc: false,
+    test: true,
+    gitignore: true,
+
+    markdown: true,
+    regexp: true,
+    react: true,
+    typescript: true,
+
+    formatters: {
+      css: true,
+      svg: true,
+      markdown: true,
     },
 
-    languageOptions: {
-      globals: {
-        ...globals.browser,
-        ...globals.node,
-      },
-
-      parser: tsParser,
-      ecmaVersion: 12,
-      sourceType: "module",
-
-      parserOptions: {
-        ecmaFeatures: {
-          jsx: true,
-        },
-      },
-    },
-
-    settings: {
-      react: {
-        version: "detect",
+    stylistic: {
+      indent: 2,
+      semi: true,
+      quotes: "double",
+      overrides: {
+        "style/arrow-parens": "off",
+        "style/brace-style": "off",
+        "style/jsx-one-expression-per-line": "off",
       },
     },
 
     rules: {
-      "react/prop-types": "off",
-      "react/react-in-jsx-scope": "off",
-      "@typescript-eslint/explicit-module-boundary-types": "warn",
+      "antfu/if-newline": "warn",
+    },
+  },
+  {
+    name: "tailwindcss:recommended",
+    plugins: { tailwindcss },
 
-      "@typescript-eslint/no-unused-vars": [
-        "error",
-        {
-          argsIgnorePattern: "^_",
-          varsIgnorePattern: "^_",
-          caughtErrorsIgnorePattern: "^_",
-          destructuredArrayIgnorePattern: "^_",
-        },
-      ],
-
-      "prettier/prettier": [
-        "error",
-        {
-          endOfLine: "lf",
-        },
-      ],
+    rules: {
       "tailwindcss/classnames-order": ["error", twOptions],
       "tailwindcss/enforces-negative-arbitrary-values": ["error", twOptions],
       "tailwindcss/enforces-shorthand": ["error", twOptions],
@@ -97,6 +56,34 @@ const config = [
       "tailwindcss/no-unnecessary-arbitrary-value": ["error", twOptions],
     },
   },
-];
+  {
+    name: "next:recommended",
+    plugins: { next },
 
-export default config;
+    rules: {
+      // warnings
+      "next/google-font-display": "warn",
+      "next/google-font-preconnect": "warn",
+      "next/next-script-for-ga": "warn",
+      "next/no-async-client-component": "warn",
+      "next/no-before-interactive-script-outside-document": "warn",
+      "next/no-css-tags": "warn",
+      "next/no-head-element": "warn",
+      "next/no-html-link-for-pages": "warn",
+      "next/no-img-element": "warn",
+      "next/no-page-custom-font": "warn",
+      "next/no-styled-jsx-in-document": "warn",
+      "next/no-sync-scripts": "warn",
+      "next/no-title-in-document-head": "warn",
+      "next/no-typos": "warn",
+      "next/no-unwanted-polyfillio": "warn",
+      // errors
+      "next/inline-script-id": "error",
+      "next/no-assign-module-variable": "error",
+      "next/no-document-import-in-page": "error",
+      "next/no-duplicate-head": "error",
+      "next/no-head-import-in-document": "error",
+      "next/no-script-component-in-head": "error",
+    },
+  },
+);

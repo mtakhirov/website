@@ -1,5 +1,5 @@
-// UI
-export { AboutPage } from "./ui";
-
 // Config
 export { aboutPageMetadata } from "./config";
+
+// UI
+export { AboutPage } from "./ui";

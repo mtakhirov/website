@@ -33,4 +33,35 @@
   .container-lg {
     @apply mx-auto w-full max-w-screen-lg px-2 md:px-4;
   }
+
+  /* TODO: !!! REFACTOR THESE SHITTY STYLES !!! */
+  .prose-mdx {
+    /* Unordered lists */
+    @apply prose-ul:list-outside prose-ul:list-disc;
+    @apply [&_:where(ul_>_li:not(:where([class~="not-prose"],[class~="not-prose"]_*)))::marker]:text-red-800;
+
+    /* Ordered lists */
+    @apply prose-ol:list-outside prose-ol:list-decimal prose-ol:*:marker:text-red-800/50;
+    @apply [&_:where(ol_>_li:not(:where([class~="not-prose"],[class~="not-prose"]_*)))::marker]:text-white/20;
+
+    /* Checklists */
+    @apply [&_:where(ul:is([class~="contains-task-list"]):not(:where([class~="not-prose"],[class~="not-prose"]_*)))]:list-none;
+    @apply [&_:where(ol:is([class~="contains-task-list"]):not(:where([class~="not-prose"],[class~="not-prose"]_*)))]:list-none;
+    @apply [&_:where(ul:is([class~="contains-task-list"]):not(:where([class~="not-prose"],[class~="not-prose"]_*)))]:pl-2;
+    @apply [&_:where(ol:is([class~="contains-task-list"]):not(:where([class~="not-prose"],[class~="not-prose"]_*)))]:pl-2;
+
+    /* Table */
+    @apply prose-table:w-max prose-table:max-w-full prose-table:overflow-scroll;
+    @apply prose-td:whitespace-nowrap prose-td:text-nowrap prose-td:px-2;
+    @apply [&_:is(:where(tbody_>_tr):not(:where([class~="not-prose"],[class~="not-prose"]_*)):nth-child(odd))]:bg-black;
+    @apply [&_:is(:where(tbody_>_tr):not(:where([class~="not-prose"],[class~="not-prose"]_*)):nth-child(even))]:bg-white/10;
+
+    /* Image */
+    @apply prose-img:mx-auto prose-img:inline-block;
+    @apply prose-img:rounded-lg prose-img:object-cover prose-img:object-center;
+    @apply prose-img:w-full prose-img:max-w-[var(--mdx-img-max-w,_100%)];
+
+    /* HR (seperator) */
+    @apply prose-hr:text-white/10;
+  }
 }
