@@ -1,0 +1,9 @@
+{
+  // Force disable prettier
+  "prettier.enable": false,
+
+  "css.lint.unknownAtRules": "ignore",
+
+  "svelte.ask-to-enable-ts-plugin": false,
+  "svelte.enable-ts-plugin": true
+}
