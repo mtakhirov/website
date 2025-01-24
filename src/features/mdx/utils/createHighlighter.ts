@@ -30,6 +30,10 @@ export async function createHighlighter() {
   return await createHighlighterCore({
     themes: [import("@shikijs/themes/vitesse-black")],
     langs: [
+      import("@shikijs/langs/vue"),
+      import("@shikijs/langs/svelte"),
+      import("@shikijs/langs/shell"),
+      import("@shikijs/langs/shellsession"),
       import("@shikijs/langs/typescript"),
       import("@shikijs/langs/ts"),
       import("@shikijs/langs/tsx"),

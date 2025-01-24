@@ -36,6 +36,13 @@
 
   /* TODO: !!! REFACTOR THESE SHITTY STYLES !!! */
   .prose-mdx {
+    /* Headings */
+    @apply prose-h1:font-black prose-h2:font-bold;
+
+    /* Inline code block */
+    @apply [&_code:is(:not(.shiki_*,a_*))]:rounded-sm [&_code:is(:not(.shiki_*,a_*))]:border-white/10 [&_code:is(:not(.shiki_*,a_*))]:bg-white/5;
+    @apply [&_code:is(:not(.shiki_*,a_*))]:border [&_code:is(:not(.shiki_*,a_*))]:px-1 [&_code:is(:not(.shiki_*,a_*))]:py-0.5;
+
     /* Unordered lists */
     @apply prose-ul:list-outside prose-ul:list-disc;
     @apply [&_:where(ul_>_li:not(:where([class~="not-prose"],[class~="not-prose"]_*)))::marker]:text-red-800;

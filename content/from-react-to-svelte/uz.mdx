@@ -1,0 +1,150 @@
+---
+title: "React'dan Vue va Svelte'ga o'tish sabablari!"
+description: 'Deyarli 4 yildan beri React.js texnologiyasi bilan ishlagandan so''ng, men frontend dunyosida "yanada soddaroq" narsani qidirishni boshladim. React juda ajoyib ekotizimga ega, lekin vaqt o''tgani sari loyihalarda "dependency hell" va "overengineering" bilan juda katta qiyinlik va katta vaqtni o''g''irlab qo''yadi. Shu o''rinda asosiy stackni "React.js"dan "Vue.js" va "Svelte"ga o''tkazishga qaror qildim.'
+tags: [post, react, vue, svelte]
+---
+
+Deyarli 4 yildan buyon **React.js** texnologiyasi bilan ishlagandan so'ng, men frontend dunyosida _**"yanada soddaroq"**_ narsani
+qidirishni boshladim. React juda ajoyib ekotizimga ega, lekin vaqt o'tgani sari loyihalarda **"dependency hell"** va **"overengineering"**
+bilan juda katta qiyinliklar keltirib chiqarashi va juda ko'p vaqtni olib qo'yishi menga yoqmaydi. Shu o'rinda asosiy stackni _"React"_ dan
+_"Vue.js"_ va _"Svelte"_ ga o'tkazishga qaror qildim. Nega aynan _"Vue"_ va _"Svelte"_ ga o'tishimga sabab bo'lgan muammolar va ularning
+afzalliklari haqida misollar bilan tushuntirib beraman.
+
+> [!TIP/Maslahat]
+>
+> Meni _**Vue**_ va _**Svelte**_ o'tkazgan asosiy sabablardan yana biri - ular **developer experience**ni ustun qo'yishladi.
+> Kodlaringiz kamroq bo'ladi, bu bo'lsa o'zidan-o'zi muammolaringiz kamroq bo'lishini ta'minlaydi. Agar siz ham **"dependency hell"**
+> va **"overengineering"** dan charchagan bo'lsangiz, ushbu texnologiyalarni sinab ko'rishni maslahat beraman
+
+## Dependency Hell: React ekotizimi va `library`lar konflikti
+
+**React** o'zini "UI Library" sifatida juda yaxshi himoya qiladi, lekin real loyihalarda har doim qo'shimcha kutubxonalar kerak bo'ladi.
+Misol uchun:
+
+- **State management:** _Redux_, _MobX_, _Zustand_, ...;
+- **Routing**: _React Router_, _Tanstack Roter_, ...;
+- **Form validation**: _Formik_, _react-hook-form_, ...;
+- **Styling**: _**CSS-in-JS kutubxonalari**_.
+
+Buyerda asosiy muammo `package.json` faylining kattalashib ketishi emas, balki kutubxonalar versiyalari bir-biri bilan "konflikt" keltirib chiqishida.
+Masalan:
+
+```shellsession
+$ npm install
+...
+npm ERR! Could not resolve dependency:
+react-router-dom@6.3.0 requires react@18.1.0, but you have react@17.0.2
+$ # "Okay, let's upgrade React to 18.1"
+$ npm install react@^18.1
+...
+npm ERR! Could not resolve dependency:
+react@18.1.0 requires react-dom@18.1.0, but you have react-dom@17.0.2
+$ f#ck
+```
+
+Yokida `node_modules` papkasi **500MB+** hajmga yetib, dependency'larni yuklab olish **5 daqiqa**dan ko'proq vaqt olishi.
+
+### **Vue qanday yechim beradi?**
+
+**Vue** ekotizimi **"batteries-included" _(barchasi bir joyda)_** g'oyasi asosida ishlab chiqilgan.
+Loyihani qurishda kerakli bo'ladigan deyarli barcha kutubxona va funksiyalar vue o'zida tayyor qilingan
+va vuening rasmiy kutubxonalari ishlab chiqarilgan.
+
+- **Vue Router** va **Pinia** rasmiy kutubxona hisoblanib, react ekotizimidagi deyarli barcha kutubxonalardan
+  yengilroq va ishlatish uchun oson hisoblanadi;
+
+- **_vue-validate_** kabi 3-tomon _(third party)_ kutubxonalar ham reactga nisbatan ishlatish oson va kamroq
+  konflikt yuzaga keltirib chiqaradi.
+
+### **Svelte qanday yechim beradi?**
+
+**Svelte** _**compiler-based**_ yondashuvga egaligi bilan **"dependency hell"** ni deyarli butunlay yo'q qiladi,
+chunki application ortiqcha hech qanday runtime kutubxonalarga bog'liq emas. Siz faqat **html based** componentlar yozasiz,
+qolganini svelte kompilyatori optimallashtiradi.
+
+## Overengineering: Reactdagi haddan ziyod murakkablik!
+
+React ustida qurilgan loyihalarda ko'pincha **keragidan ortiq abstraksiyalar** paydo bo'ladi. Misol uchun:
+
+- **Redux**ni har bir formaga ulash kerak;
+- Komponent va statelarni `useEffect`, `useCallback` va `useMemo` orqali optimallashtirish kerak;
+- Juda ham ko'p kontekst providerlar bilan `<App />` komponentni o'rash kerak.
+
+### **Misol uchun, reactda oddiy counter komponent:**
+
+```tsx
+import { useState, useCallback } from "react";
+
+function Counter() {
+  const [count, setCount] = useState(0);
+  const increment = useCallback(() => setCount((c) => c + 1), []);
+
+  return <button onClick={increment}>{count}</button>;
+}
+```
+
+Bu oddiy counter komponent ham optimallik uchun `useCallback`ni talab qiladi. Nima uchun? \
+**I have no idea**
+
+### **Vuedagi soddalik:**
+
+Vue bizga `ref` va `reactive` primitive'lari bilan qulaylikni beradi:
+
+```vue
+<script setup lang="ts">
+import { ref } from "vue";
+const count = ref<number>(0);
+</script>
+
+<template>
+  <button @click="count++">{{ count }}</button>
+</template>
+```
+
+Vue uchun hech qanday memoization kerak emas, ko'p vaqtingizni performance uchun ketkazishni hojati yo'q!
+
+### **Sveltedagi soddalik:**
+
+Svelte bizga javascript sintaksisini to'g'rida-to'g'ri ishlatish imkoniyatini beradi:
+
+```svelte
+<script lang="ts">
+  let count = 0;
+</script>
+
+<button on:click={() => count++}>{count}</button>
+```
+
+Bu yerda virtual DOM yo'q - har bir click DOMni to'g'ridan-to'g'ri yangilaydi _(lekin optimallashtirilgan tarzda)_.
+
+## Performance: Kompilyator va Virtual DOM
+
+Reactning virtual DOM-i yaxshi, lekin katta loyihalarda sekinlashishi mumkin. Vue ham virtual DOM'dan foydalanadi,
+lekin optimallashtirilgan variantda. Svelte esa kompilyatsiya vaqtida kodni optimallashtiradi va faqat zarur bo'lgan
+qismlarni render qiladi.
+
+### **Bundle size benchmarks:** _(oddiy counter dasturi misolida)_
+
+- React ~ 120KB _(React + React-DOM)_
+- Vue ~ 80KB
+- Svelte ~ 3KB _**(CARL!!!)**_
+
+## Qachon qaysi texnologiyalardan foydalanaman?
+
+Agarda loyiha kichikroq bo'lsa, kelajakda **"scale"** qilish talabi bo'lmasa, buyerda **Svelte** eng ideal variant. Nega?:
+
+- **Runtime kutubxonalarsiz ishlaydi** — bu xavfsizlik, tezlik va minimal bundle sizeni ta'minlaydi;
+- **Tezroq UX va optimal SEO** - kompilyator yordamida DOMni to'g'ridan-to'g'ri manipulyatsiya qilishi.
+
+Aksincha, agar loyiha katta bo'ladigan bo'lsa, loyihada ko'p dasturchilar ishtirok etsa, yoki **murakkab biznes logikalar** mavjud bo'lsa,
+Vue eng to'g'ri tanlob bo'ladi. Nega?:
+
+- Katta hamjamiyat va uzoq muddatli qo'llab-quvvatlash — biznes uchun muhim;
+- Rasmiy ekotizim _(Vue Router, Pinia, Vite)_ loyihani oson kengaytirish _(scale)_ imkonini beradi.
+
+> [!NOTE]
+>
+> Ushbu web saytimni `svelte` yordamida qaytadan qurib chiqishni maqsad qildim \
+> (hali react texnologiya bilan to'liq tugatilmagan bo'lsa ham :))
+>
+> Kodlar ushbu branchga yozib boriladi: [`rebuild/svelte`](https://github.com/mtakhirov/website/tree/rebuild/svelte)
