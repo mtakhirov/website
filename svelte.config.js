@@ -1,6 +1,6 @@
-import adapter from '@sveltejs/adapter-auto'
-import { vitePreprocess } from '@sveltejs/vite-plugin-svelte'
-import { mdsvex } from 'mdsvex'
+import adapter from "@sveltejs/adapter-auto";
+import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
+import { mdsvex } from "mdsvex";
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -17,14 +17,17 @@ const config = {
     // An object containing zero or more aliases used to replace values in import statements. These aliases are
     // automatically passed to Vite and TypeScript.
     alias: {
-      '#/*': './src/*',
+      "#/*": "./src/*",
 
-      '$components': './src/components',
-      '$components/*': './src/components/*',
+      "$components": "./src/components",
+      "$components/*": "./src/components/*",
+
+      "$assets": "./src/assets",
+      "$assets/*": "./src/assets/*",
     },
   },
 
-  extensions: ['.svelte', '.svx', '.mdx'],
-}
+  extensions: [".svelte", ".svx", ".mdx"],
+};
 
-export default config
+export default config;

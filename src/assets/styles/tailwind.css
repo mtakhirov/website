@@ -1,0 +1,98 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/geist-mono";
+
+@theme {
+  --font-sans: "Geist Variable", Arial, -apple-system, ui-sans-serif,
+                system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+                "Segoe UI Symbol", "Noto Color Emoji";
+
+  --font-serif: "Geist Variable", Arial, -apple-system, ui-serif, Georgia, Cambria,
+                "Times New Roman", Times, serif;
+
+  --font-mono: "Geist Mono Variable", ui-monospace, SFMono-Regular, Menlo, Monaco,
+                Consolas, "Liberation Mono", "Courier New", monospace;
+
+  /* Spacings */
+  --spacing: 0.4rem;
+  --spacing-3xs: 25.6rem;
+  --spacing-2xs: 28.8rem;
+  --spacing-xs: 32.0rem;
+  --spacing-sm: 38.4rem;
+  --spacing-md: 44.8rem;
+  --spacing-lg: 51.2rem;
+  --spacing-xl: 57.6rem;
+  --spacing-2xl: 67.2rem;
+  --spacing-3xl: 76.8rem;
+  --spacing-4xl: 89.6rem;
+  --spacing-5xl: 102.4rem;
+  --spacing-6xl: 115.2rem;
+  --spacing-7xl: 128.0rem;
+
+  /* Font size */
+  --text-xs: 1.2rem;
+  --text-sm: 1.4rem;
+  --text-base: 1.6rem;
+  --text-lg: 1.8rem;
+  --text-xl: 2rem;
+  --text-2xl: 2.4rem;
+  --text-3xl: 3rem;
+  --text-4xl: 3.6rem;
+  --text-5xl: 4.8rem;
+  --text-6xl: 6rem;
+  --text-7xl: 7.2rem;
+  --text-8xl: 9.6rem;
+  --text-9xl: 12.8rem;
+
+  /* Screen sizes */
+  --breakpoint-*: initial;
+  --breakpoint-sm: 64rem;
+  --breakpoint-md: 76.8rem;
+}
+
+@utility container {
+  @apply mx-auto w-full px-2 md:px-4;
+}
+
+@layer base {
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-gray-400);
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  html {
+    font-size: 62.5%;
+  }
+
+  body {
+    @apply min-h-dvh text-base;
+  }
+
+  body#app {
+    @apply bg-white dark:bg-black text-black dark:text-white;
+    @apply flex flex-col text-base;
+  }
+
+  body#app > main {
+    @apply grow;
+  }
+
+  p {
+    text-decoration: inherit;
+  }
+
+  a {
+    @apply text-white/70 transition-colors hover:text-white;
+  }
+
+  a[data-underline] {
+    @apply no-underline underline-offset-2 hover:underline;
+  }
+}

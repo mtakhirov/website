@@ -1,9 +1,8 @@
 <script lang="ts">
   import { Header } from "$components";
+  import "$assets/styles/tailwind.css";
 
-  import "../tailwind.css";
-
-  let { children } = $props();
+  const { children } = $props();
 </script>
 
 <Header />

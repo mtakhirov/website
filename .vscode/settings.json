@@ -2,8 +2,17 @@
   // Force disable prettier
   "prettier.enable": false,
 
-  "css.lint.unknownAtRules": "ignore",
+  // Svelte formatter
+  "svelte.plugin.svelte.format.config.printWidth": 80,
+  "svelte.plugin.svelte.format.config.singleQuote": true,
+  "svelte.plugin.svelte.format.config.svelteStrictMode": true,
+  "svelte.plugin.svelte.format.config.svelteBracketNewLine": true,
+  "svelte.plugin.svelte.format.config.svelteSortOrder": "options-scripts-markup-styles",
 
   "svelte.ask-to-enable-ts-plugin": false,
-  "svelte.enable-ts-plugin": true
+  "svelte.enable-ts-plugin": true,
+
+  // Tailwind configurations
+  "tailwindCSS.showPixelEquivalents": true,
+  "tailwindCSS.rootFontSize": 10
 }
