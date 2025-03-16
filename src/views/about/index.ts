@@ -2,4 +2,4 @@
 export { aboutPageMetadata } from "./config";
 
 // UI
-export { AboutPage } from "./ui";
+export { AboutPage } from "./ui/about-page";

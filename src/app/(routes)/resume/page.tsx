@@ -1,4 +1,4 @@
-import { ResumePage, resumePageMetadata } from "#views/resume";
+import { ResumePage, resumeMetadata } from "#views/resume";
 
-export const metadata = resumePageMetadata;
+export const metadata = resumeMetadata;
 export default ResumePage;

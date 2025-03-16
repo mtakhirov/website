@@ -45,6 +45,20 @@ const config: Config = {
         sans: ["var(--font-geist-sans)", ...tw.fontFamily.sans],
         mono: ["var(--font-geist-mono)", ...tw.fontFamily.mono],
       },
+
+      animation: {
+        "alert-banner": "alert-banner 15s linear infinite",
+      },
+      keyframes: {
+        "alert-banner": {
+          "0%": {
+            transform: "translateX(0)",
+          },
+          "100%": {
+            transform: "translateX(-100%)",
+          },
+        },
+      },
     },
   },
 

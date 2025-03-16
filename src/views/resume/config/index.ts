@@ -1,1 +1,1 @@
-export { resumePageMetadata } from "./metadata";
+export { resumeMetadata } from "./metadata";

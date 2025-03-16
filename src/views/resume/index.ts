@@ -1,5 +1,5 @@
 // Config
-export { resumePageMetadata } from "./config";
+export { resumeMetadata } from "./config";
 
 // UI
-export { ResumePage } from "./ui";
+export { ResumePage } from "./ui/resume-page";
