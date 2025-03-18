@@ -71,4 +71,28 @@
     /* HR (seperator) */
     @apply prose-hr:text-white/10;
   }
+
+  .alert-splash {
+    @apply relative;
+
+    &::before,
+    &::after {
+      @apply pointer-events-none z-10 content-[''];
+      @apply absolute inset-y-0 w-1/12 from-black to-black/0;
+      background-image: linear-gradient(
+        var(--direction),
+        var(--tw-gradient-stops)
+      );
+    }
+
+    &::before {
+      --direction: to right;
+      @apply left-0;
+    }
+
+    &::after {
+      --direction: to left;
+      @apply right-0;
+    }
+  }
 }
