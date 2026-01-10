@@ -1,0 +1,16 @@
+{
+  "format_on_save": "on",
+
+  "formatter": [
+    // Use ESLint's --fix:
+    { "code_action": "source.fixAll.eslint" }
+  ],
+
+  "language_servers": [
+    "vtsls",
+    "eslint",
+    "json-language-server",
+    "typescript-language-server",
+    "tailwindcss-language-server",
+  ],
+}
