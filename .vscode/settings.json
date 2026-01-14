@@ -5,7 +5,14 @@
     "*.css": "tailwindcss",
   },
 
+  // enable ESLint to fix all auto-fixable issues on save
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+
+  "tailwindCSS.lint.cssConflict": "ignore",
+  "tailwindCSS.lint.suggestCanonicalClasses": "ignore",
   "tailwindCSS.experimental.classRegex": [
-    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cva\\(([^;]*)[\\);]", "[`'\"`]([^'\"`;]*)[`'\"`]"]
   ],
 }

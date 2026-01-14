@@ -9,7 +9,8 @@ export const env = defineEnv({
   },
 
   server: {
-    //
+    // allowed dev origins
+    DEV_ORIGINS: z.string().transform(value => value.split(",")),
   },
 
   client: {

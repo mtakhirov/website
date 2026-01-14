@@ -1,0 +1,26 @@
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "base-maia",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "",
+    "css": "src/assets/css/tailwind.css",
+    "baseColor": "neutral",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "iconLibrary": "tabler",
+  "aliases": {
+    "ui": "#components/ui",
+    "components": "#components",
+    "lib": "#lib",
+    "utils": "#utils",
+    "hooks": "#hooks"
+  },
+  "menuColor": "default",
+  "menuAccent": "subtle",
+  "registries": {
+    "@aceternity": "https://ui.aceternity.com/registry/{name}.json"
+  }
+}
