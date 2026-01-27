@@ -1,0 +1,25 @@
+{
+  // Prettier
+  "prettier.enable": false,
+  // Files associations
+  "files.associations": {
+    "*.css": "tailwindcss",
+  },
+  // enable ESLint to fix all auto-fixable issues on save
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  // Tailwind CSS
+  "tailwindCSS.lint.cssConflict": "ignore",
+  "tailwindCSS.lint.suggestCanonicalClasses": "ignore",
+  "tailwindCSS.experimental.classRegex": [
+    [
+      "cva\\(([^;]*)[\\);]",
+      "[`'\"`]([^'\"`;]*)[`'\"`]"
+    ]
+  ],
+  "[mdx]": {
+    "editor.defaultFormatter": "unifiedjs.vscode-mdx"
+  },
+}

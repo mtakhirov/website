@@ -1,0 +1,36 @@
+{
+  "disable_ai": true,
+  "format_on_save": "on",
+
+  "agent": {
+    "enabled": false,
+    "default_model": null
+  },
+
+  "telemetry": {
+    "metrics": false,
+    "diagnostics": false
+  },
+
+  "formatter": [
+    // Use ESLint's --fix:
+    { "code_action": "source.fixAll.eslint" }
+  ],
+
+  "language_servers": [
+    "vtsls",
+    "eslint",
+    "json-language-server",
+    "typescript-language-server",
+    "tailwindcss-language-server",
+  ],
+
+  "languages": {
+    "CSS": {
+      "language_servers": [
+        "tailwindcss-intellisense-css",
+        "!vscode-css-language-server"
+      ]
+    }
+  }
+}
