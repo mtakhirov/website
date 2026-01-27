@@ -6,6 +6,8 @@ export const env = defineEnv({
     APP_ENV: z
       .enum(["development", "production", "test"])
       .default("development"),
+
+    SITE_URL: z.string().optional(),
   },
 
   server: {

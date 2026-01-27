@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "@toolwind/anchors";
 @import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
@@ -62,8 +63,8 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.659 0.225 149.215);
-  --primary-foreground: oklch(0.985 0.02 173.356);
+  --primary: oklch(0.60 0.22 41);
+  --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.967 0.001 286.375);
   --secondary-foreground: oklch(0.21 0.006 285.885);
   --muted: oklch(0.97 0 0);
@@ -73,7 +74,7 @@
   --destructive: oklch(0.58 0.22 27);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
-  --ring: oklch(0.659 0.225 149.215);
+  --ring: oklch(0.60 0.22 41);
   --chart-1: oklch(0.659 0.225 149.215);
   --chart-2: oklch(0.705 0.213 164.607);
   --chart-3: oklch(0.769 0.188 170.14);
@@ -82,8 +83,8 @@
   --radius: 0.625rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.659 0.225 149.215);
-  --sidebar-primary-foreground: oklch(0.985 0.02 173.356);
+  --sidebar-primary: oklch(0.60 0.22 41);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
@@ -97,8 +98,8 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.705 0.213 164.607);
-  --primary-foreground: oklch(0.208 0.042 165.729);
+  --primary: oklch(0.68 0.22 41);
+  --primary-foreground: oklch(0.145 0 0);
   --secondary: oklch(0.274 0.006 286.033);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
@@ -108,7 +109,7 @@
   --destructive: oklch(0.396 0.141 25.723);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.705 0.213 164.607);
+  --ring: oklch(0.68 0.22 41);
   --chart-1: oklch(0.705 0.213 164.607);
   --chart-2: oklch(0.659 0.225 149.215);
   --chart-3: oklch(0.608 0.226 134.076);
@@ -116,8 +117,8 @@
   --chart-5: oklch(0.409 0.158 119.666);
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.705 0.213 164.607);
-  --sidebar-primary-foreground: oklch(0.208 0.042 165.729);
+  --sidebar-primary: oklch(0.68 0.22 41);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.269 0 0);
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
@@ -130,5 +131,60 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* MDX Content Styles */
+@layer components {
+  .mdx-content {
+    @apply text-foreground;
+  }
+
+  /* Code block styles for rehype-pretty-code */
+  .mdx-content pre {
+    @apply my-6 overflow-x-auto rounded-lg border border-border bg-card;
+  }
+
+  .mdx-content pre > code {
+    @apply grid min-w-full break-words rounded-none border-0 bg-transparent p-0;
+    counter-reset: line;
+    box-decoration-break: clone;
+  }
+
+  .mdx-content pre [data-line] {
+    @apply border-l-2 border-transparent px-4 py-0.5;
+  }
+
+  .mdx-content pre [data-highlighted-line] {
+    @apply border-l-primary/50 bg-primary/10;
+  }
+
+  .mdx-content pre [data-highlighted-chars] {
+    @apply rounded bg-primary/20 px-1;
+  }
+
+  .mdx-content pre [data-line-numbers] > [data-line]::before {
+    @apply mr-4 inline-block w-4 text-right text-muted-foreground;
+    counter-increment: line;
+    content: counter(line);
+  }
+
+  /* Code title/caption */
+  .mdx-content [data-rehype-pretty-code-title] {
+    @apply rounded-t-lg border border-b-0 border-border bg-muted px-4 py-2 font-mono text-sm text-muted-foreground;
+  }
+
+  .mdx-content [data-rehype-pretty-code-title] + pre {
+    @apply mt-0 rounded-t-none;
+  }
+
+  /* Inline code */
+  .mdx-content :not(pre) > code {
+    @apply relative rounded-md bg-muted px-[0.4rem] py-[0.2rem] font-mono text-sm text-foreground;
+  }
+
+  /* Selection */
+  .mdx-content ::selection {
+    @apply bg-primary/30;
   }
 }

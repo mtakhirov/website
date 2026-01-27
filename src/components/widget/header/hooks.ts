@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-export function useHeaderScroll(threshold = 20) {
+export function useHeaderScroll(threshold = 10) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {

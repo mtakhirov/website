@@ -10,22 +10,34 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.0.0",
+    "@mdx-js/loader": "^3.1.1",
+    "@mdx-js/react": "^3.1.1",
+    "@next/mdx": "^16.1.4",
     "@tabler/icons-react": "^3.36.1",
     "babel-plugin-react-compiler": "^1.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "envin": "^1.1.12",
+    "gray-matter": "^4.0.3",
     "motion": "^12.25.0",
     "next": "16.1.1",
+    "next-mdx-remote": "^5.0.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "shadcn": "^3.6.3",
+    "rehype-pretty-code": "^0.14.1",
+    "rehype-slug": "^6.0.0",
+    "remark-gfm": "^4.0.1",
+    "rough-notation": "^0.5.1",
+    "shadcn": "^3.7.0",
+    "shiki": "^3.21.0",
     "tailwind-merge": "^3.4.0",
+    "vaul": "^1.1.2",
     "zod": "^4.3.5"
   },
   "devDependencies": {
     "@stylistic/eslint-plugin": "^5.7.0",
     "@tailwindcss/postcss": "^4",
+    "@toolwind/anchors": "^1.0.10",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
@@ -42,6 +54,7 @@
     "unrs-resolver"
   ],
   "trustedDependencies": [
+    "@toolwind/anchors",
     "sharp",
     "unrs-resolver"
   ]

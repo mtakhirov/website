@@ -1,171 +1,197 @@
 "use client";
 
-import { IconMenu2 } from "@tabler/icons-react";
-import { motion } from "motion/react";
+import { IconMenu2, IconX } from "@tabler/icons-react";
+import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
+import * as React from "react";
 import { HEADER_LINKS } from "#app/config";
 import { Button } from "#components/ui/button";
 import { cn } from "#utils";
-
-import { useHeaderScroll } from "./hooks";
-
-const BLUR_LAYERS = [
-  { blur: "0.25px", mask: "62.5%, 75%, 87.5%, 100%" },
-  { blur: "0.5px", mask: "50%, 62.5%, 75%, 87.5%" },
-  { blur: "1px", mask: "37.5%, 50%, 62.5%, 75%" },
-  { blur: "2px", mask: "25%, 37.5%, 50%, 62.5%" },
-  { blur: "4px", mask: "12.5%, 25%, 37.5%, 50%" },
-  { blur: "8px", mask: "0%, 12.5%, 25%, 37.5%" },
-  { blur: "16px", mask: "0%, 0%, 12.5%, 25%" },
-  { blur: "32px", mask: "0%, 0%, 0%, 12.5%" },
-];
+import NavigationBubble from "./ui/navigation-bubble";
+import NavigationContent from "./ui/navigation-content";
+import NavigationItem from "./ui/navigation-item";
+import SmoothBackdrop from "./ui/smooth-backdrop";
 
 function Header() {
+  const [open, setOpen] = React.useState(false);
   const pathname = usePathname();
-  const scrolled = useHeaderScroll();
+
+  const toggle = () => setOpen(prev => !prev);
+  const close = () => setOpen(false);
 
   return (
-    <motion.header
-      layoutRoot
-      data-scrolled={scrolled}
-      className={cn([
-        `group sticky top-0 z-50 py-4`,
-      ])}
-    >
-      {/* Smooth Backdrop Blur */}
-      <div
-        className={cn([
-          `
-            pointer-events-none absolute inset-x-0 -top-4 -bottom-4 -z-1
-            overflow-hidden transition-opacity duration-200
-            group-data-[scrolled=false]:opacity-0
-          `,
-        ])}
-      >
-        {BLUR_LAYERS.map((layer, i) => (
-          <div
-            key={i}
-            className="absolute inset-x-0 -top-4 bottom-0"
-            style={{
-              zIndex: i + 1,
-              backdropFilter: `blur(${layer.blur})`,
-              maskImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0) ${layer.mask.split(", ")[0]}, rgba(0, 0, 0, 1) ${layer.mask.split(", ")[1]}, rgba(0, 0, 0, 1) ${layer.mask.split(", ")[2]}, rgba(0, 0, 0, 0) ${layer.mask.split(", ")[3]})`,
-              WebkitMaskImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0) ${layer.mask.split(", ")[0]}, rgba(0, 0, 0, 1) ${layer.mask.split(", ")[1]}, rgba(0, 0, 0, 1) ${layer.mask.split(", ")[2]}, rgba(0, 0, 0, 0) ${layer.mask.split(", ")[3]})`,
-            }}
-          />
-        ))}
-        <div
-          className={cn([
-            `
-              absolute inset-x-0 -top-4 bottom-0 bg-linear-to-b from-background
-              from-25% to-background/0
-            `,
-          ])}
-          style={{
-            zIndex: BLUR_LAYERS.length + 1,
-          }}
-        />
-      </div>
+    <header className={cn`group sticky top-0 z-50 py-4`}>
+      <SmoothBackdrop />
 
       <nav
-        className={cn([
-          `
-            container mx-auto flex h-12 items-center justify-between gap-1.5
-            rounded-full text-sm duration-300
-          `,
-        ])}
+        id="navigation-menu"
+        className={cn`container flex h-12 items-center justify-between text-sm`}
       >
-        <div className={cn([
-          "flex items-center gap-2",
-          `h-9 rounded-4xl px-4 outline-none`,
-          `border border-border bg-input/30 bg-clip-padding`,
-        ])}
+        <div id="navigation-content" className={cn`flex h-9 items-center gap-2`}>
+          <NavigationContent
+            id="navigation-logo"
+            className="anchor/navigation-logo"
+          >
+            <NavigationItem href="/">~/tkhrv</NavigationItem>
+          </NavigationContent>
+
+          {/* Desktop / tablet inline links */}
+          <NavigationContent
+            id="navigation-list"
+            className={cn(`hidden anchor/navigation-list sm:flex`)}
+          >
+            {HEADER_LINKS.map(link => (
+              <NavigationItem
+                key={`${link.label}-${link.href}`}
+                href={link.href}
+                className={cn`
+                  before:absolute before:inset-0
+                  hover:before:anchor/navigation-list
+                `}
+              >
+                {link.label}
+              </NavigationItem>
+            ))}
+          </NavigationContent>
+        </div>
+
+        {/* Navigation trigger */}
+        <Button
+          id="navigation-button"
+          size="icon"
+          variant="outline"
+          aria-label={open ? "Yopish" : "Navigatsiyani ochish"}
+          aria-expanded={open}
+          aria-controls="navigation-mobile-menu"
+          className={cn`
+            group/button inline-flex shrink-0 cursor-pointer items-center
+            justify-center rounded-4xl border border-accent bg-accent/60
+            text-muted-foreground outline-none
+            hover:bg-accent/70 hover:text-accent-foreground
+          `}
+          onClick={toggle}
         >
-          <Link
-            href="/"
-            className={cn(`
-              relative h-7.5 content-center text-muted-foreground
-              underline-offset-3 transition-colors
-              hover:text-primary hover:underline
-            `)}
-            data-underline
-          >
-            {pathname === "/" && (
-              <motion.span
-                layoutId="header-active-link"
-                animate={{ opacity: 0 }}
-                initial={false}
-                className={cn([
-                  `
-                    absolute inset-0 rounded-full border border-border
-                    bg-primary-foreground/75 opacity-0
-                  `,
-                ])}
-                transition={{
-                  type: "spring",
-                  stiffness: 380,
-                  damping: 30,
-                }}
-              />
-            )}
-            <h3>~/tkhrv</h3>
-          </Link>
-
-          <span className={cn([`hidden text-muted select-none md:inline-block`])}>
-            #
-          </span>
-
-          <div className={cn([`hidden items-center gap-1.5 md:flex`])}>
-            {HEADER_LINKS.map((link, index) => {
-              const isActive = pathname === link.href || pathname.startsWith(link.href);
-
-              return (
-                <Link
-                  key={`${link.label}-${index}`}
-                  href={link.href}
-                  className={cn([
-                    `
-                      relative h-7.5 content-center rounded-full px-2
-                      transition-colors
-                    `,
-                    isActive
-                      ? "text-primary"
-                      : `text-muted-foreground hover:text-primary`,
-                  ])}
-                >
-                  {isActive && (
-                    <motion.span
-                      layoutId="header-active-link"
-                      className={cn`
-                        absolute inset-0 rounded-full border border-border
-                        bg-primary-foreground/75
-                      `}
-                      transition={{
-                        type: "spring",
-                        stiffness: 380,
-                        damping: 30,
-                      }}
-                    />
-                  )}
-                  <span className="relative z-10">{link.label}</span>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <Button
-            size="icon"
-            variant="outline"
-          >
-            <IconMenu2 />
-          </Button>
-        </div>
+          <AnimatePresence initial={false} mode="wait">
+            {open
+              ? (
+                  <motion.span
+                    key="close-icon"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    transition={{ duration: 0.18 }}
+                  >
+                    <IconX className="size-5" />
+                  </motion.span>
+                )
+              : (
+                  <motion.span
+                    key="menu-icon"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    transition={{ duration: 0.18 }}
+                  >
+                    <IconMenu2 className="size-5" />
+                  </motion.span>
+                )}
+          </AnimatePresence>
+        </Button>
       </nav>
-    </motion.header>
+
+      {/* Mobile bottom sheet menu (xs / sm) */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            id="navigation-mobile-menu"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.18, ease: "easeOut" }}
+            className={cn`
+              fixed inset-x-0 top-16 z-40 border-b border-border/60
+              bg-background/95 backdrop-blur-xl
+              sm:hidden
+            `}
+          >
+            <div className="container py-3">
+              <nav className="flex flex-col gap-1.5">
+                {HEADER_LINKS.map((link) => {
+                  const isActive = link.href === "/" ? pathname === "/" : pathname?.startsWith(link.href);
+
+                  return (
+                    <Link
+                      key={`${link.label}-${link.href}-mobile`}
+                      href={link.href}
+                      onClick={close}
+                      className={cn(
+                        `
+                          inline-flex items-center justify-between rounded-xl
+                          px-3 py-2 text-sm transition-colors
+                        `,
+                        isActive
+                          ? "bg-accent/60 text-accent-foreground"
+                          : "text-muted-foreground",
+                      )}
+                    >
+                      <span className="font-medium">{link.label}</span>
+                      <span className="text-xs text-muted-foreground/70">
+                        {link.href}
+                      </span>
+                    </Link>
+                  );
+                })}
+              </nav>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Tablet / desktop feature aside (md and up) */}
+      <AnimatePresence>
+        {open && (
+          <motion.aside
+            key="header-feature-aside"
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 40 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className={cn`
+              pointer-events-auto fixed top-20 right-4 z-40 hidden
+              w-[min(22rem,calc(100vw-2rem))]
+              md:block
+            `}
+          >
+            <div
+              className={cn(`
+                rounded-2xl border border-white/10 bg-zinc-950/90 p-4
+                shadow-[0_18px_45px_rgba(0,0,0,0.7)] backdrop-blur-xl
+              `)}
+            >
+              <p className={`
+                font-mono text-[11px] tracking-[0.18em] text-orange-300/80
+                uppercase
+              `}
+              >
+                Feature: Navigation
+              </p>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Bu header menyu hozircha
+                {" "}
+                <span className="text-orange-400">eksperimental</span>
+                {" "}
+                bo&apos;lim. Turli ekran o&apos;lchamlarida qanday ishlashini sinab
+                ko&apos;ryapman: mobil qurilmalarda to&apos;liq menyu, katta
+                ekranlarda esa kontekstli yon panel.
+              </p>
+            </div>
+          </motion.aside>
+        )}
+      </AnimatePresence>
+
+      <NavigationBubble />
+    </header>
   );
 }
 
