@@ -14,9 +14,11 @@ const betterTailwindCssConfig = [
       // Stylistic Rules
       "better-tailwindcss/enforce-consistent-line-wrapping": ["warn", { preferSingleLine: true }],
       "better-tailwindcss/no-deprecated-classes": ["error"],
+      // Buggy: rewrites `text-lg leading-relaxed` to `text-2xl/relaxed`.
+      "better-tailwindcss/enforce-canonical-classes": ["off"],
 
       // Correctness Rules
-      "better-tailwindcss/no-unregistered-classes": ["error", { ignore: ["dark"], detectComponentClasses: true }],
+      "better-tailwindcss/no-unknown-classes": ["error", { ignore: ["dark"], detectComponentClasses: true }],
       "better-tailwindcss/no-restricted-classes": ["error", { restrict: ["^\\*+:.*"] }],
     },
     settings: {

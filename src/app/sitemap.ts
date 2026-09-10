@@ -1,49 +1,45 @@
 import type { MetadataRoute } from "next";
-import { getPublishedPosts } from "#lib/blog";
-import { SITE_URL } from "./config";
+import { SITE_URL } from "#config/site";
+import { locales } from "#i18n";
+import { getPosts } from "#lib/blog";
+
+const STATIC_PATHS: { path: string; priority: number; changeFrequency: "weekly" | "monthly" }[] = [
+  { path: "", priority: 1, changeFrequency: "weekly" },
+  { path: "/blog", priority: 0.9, changeFrequency: "weekly" },
+  { path: "/projects", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/resume", priority: 0.7, changeFrequency: "monthly" },
+  { path: "/uses", priority: 0.5, changeFrequency: "monthly" },
+];
+
+function languages(path: string): Record<string, string> {
+  return Object.fromEntries(locales.map(locale => [locale, `${SITE_URL}/${locale}${path}`]));
+}
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const posts = getPublishedPosts();
+  const entries: MetadataRoute.Sitemap = [];
 
-  const blogUrls: MetadataRoute.Sitemap = posts.map(post => ({
-    url: `${SITE_URL}/blog/${post.slug}`,
-    lastModified: new Date(post.frontmatter.date),
-    changeFrequency: "monthly",
-    priority: 0.7,
-  }));
+  for (const locale of locales) {
+    for (const item of STATIC_PATHS) {
+      entries.push({
+        url: `${SITE_URL}/${locale}${item.path}`,
+        lastModified: new Date(),
+        changeFrequency: item.changeFrequency,
+        priority: item.priority,
+        alternates: { languages: languages(item.path) },
+      });
+    }
 
-  const staticPages: MetadataRoute.Sitemap = [
-    {
-      url: SITE_URL,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 1.0,
-    },
-    {
-      url: `${SITE_URL}/about`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${SITE_URL}/blog`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${SITE_URL}/projects`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${SITE_URL}/resume`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-  ];
+    for (const post of getPosts(locale)) {
+      const path = `/blog/${post.slug}`;
+      entries.push({
+        url: `${SITE_URL}/${locale}${path}`,
+        lastModified: new Date(post.meta.updated ?? post.meta.date),
+        changeFrequency: "monthly",
+        priority: 0.7,
+        alternates: { languages: languages(path) },
+      });
+    }
+  }
 
-  return [...staticPages, ...blogUrls];
+  return entries;
 }

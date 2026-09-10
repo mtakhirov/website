@@ -1,48 +1,49 @@
-import { cva, type VariantProps } from "class-variance-authority";
+import type { ComponentPropsWithoutRef, ComponentType, ReactNode, SVGProps } from "react";
 import { cn } from "#utils";
 
-type HeadingSlots = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
-type HeadingProps = React.ComponentProps<HeadingSlots> & VariantProps<typeof headingVariants> & {
-  as?: HeadingSlots;
-};
+export type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
 
-const headingVariants = cva(``, {
-  variants: {
-    variant: {
-      default: "font-sans",
-      sans: "font-sans",
-      mono: "font-mono",
-    },
-    size: {
-      h1: "text-2xl font-bold md:text-4xl",
-      h2: "text-lg font-semibold md:text-xl",
-      h3: "text-sm font-medium md:text-base",
-    },
-  },
-  defaultVariants: {
-    variant: "default",
-    size: "h1",
-  },
-});
+interface PageHeaderProps {
+  title: ReactNode;
+  description?: ReactNode;
+  aside?: ReactNode;
+  className?: string;
+}
 
-function Heading({ as, className, variant, size, ...props }: HeadingProps) {
-  let Slot: HeadingSlots = "h1";
-
-  if (size && size !== null) {
-    Slot = size;
-  }
-
-  if (as && as !== undefined) {
-    Slot = as;
-  }
-
+/** Top of every route: pixel-font H1 + one-line description. */
+export function PageHeader({ title, description, aside, className }: PageHeaderProps) {
   return (
-    <Slot
-      data-slot="heading"
-      className={cn(headingVariants({ variant, size, className }))}
-      {...props}
-    />
+    <header className={cn("mb-10 flex flex-wrap items-end justify-between gap-6", className)}>
+      <div className={cn("max-w-2xl")}>
+        <h1 className={cn(`
+          font-pixel text-4xl leading-none font-bold
+          md:text-5xl
+        `)}
+        >
+          {title}
+        </h1>
+        {description && <p className={cn("mt-3 max-w-[60ch] text-muted")}>{description}</p>}
+      </div>
+      {aside}
+    </header>
   );
 }
 
-export { Heading, headingVariants };
+interface SectionTitleProps extends ComponentPropsWithoutRef<"h2"> {
+  /** Pixel icon drawn in the accent colour before the text. Falls back to a plain square. */
+  icon?: IconComponent;
+}
+
+export function SectionTitle({ icon: Icon, className, children, ...props }: SectionTitleProps) {
+  return (
+    <h2
+      className={cn(`flex items-center gap-2.5 font-pixel text-2xl leading-none`, className)}
+      {...props}
+    >
+      {Icon
+        ? <Icon className={cn("size-[0.85em] shrink-0 text-accent crisp")} aria-hidden />
+        : <span className={cn("size-[0.5em] shrink-0 bg-accent")} aria-hidden />}
+      <span>{children}</span>
+    </h2>
+  );
+}

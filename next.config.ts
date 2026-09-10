@@ -10,10 +10,8 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   typedRoutes: true,
 
-  experimental: {
-    viewTransition: true,
-    useLightningcss: true,
-    browserDebugInfoInTerminal: isDev,
+  logging: {
+    browserToTerminal: isDev,
   },
 };
 

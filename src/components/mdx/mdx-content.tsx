@@ -2,30 +2,30 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
-import { useMDXComponents } from "./components";
+import { remarkCallout } from "#lib/remark-callout";
+import { getMDXComponents } from "./components";
 
 interface MDXContentProps {
   source: string;
-  slug?: string;
+  assetBase: string;
 }
 
-export function MDXContent({ source, slug }: MDXContentProps) {
-  const components = useMDXComponents({}, slug);
-
+export function MDXContent({ source, assetBase }: MDXContentProps) {
   return (
     <MDXRemote
       source={source}
-      components={components}
+      components={getMDXComponents(assetBase)}
       options={{
         mdxOptions: {
-          remarkPlugins: [remarkGfm],
+          remarkPlugins: [remarkGfm, remarkCallout],
           rehypePlugins: [
             rehypeSlug,
             [
               rehypePrettyCode,
               {
-                theme: "github-dark-default",
-                keepBackground: true,
+                theme: { light: "github-light-default", dark: "github-dark-default" },
+                keepBackground: false,
+                bypassInlineCode: true,
                 defaultLang: "plaintext",
               },
             ],

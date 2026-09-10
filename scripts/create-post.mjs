@@ -1,50 +1,62 @@
+#!/usr/bin/env node
+/**
+ * Create a new blog post.
+ *
+ *   node scripts/create-post.mjs <slug> [--lang uz|en] [--part N]
+ *   bun run post my-post --lang en
+ */
 import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 
-async function createPost() {
-  const args = process.argv.slice(2);
-  const slug = args[0];
-  const part = args[1]; // optional
+const LOCALES = ["uz", "en"];
 
-  if (!slug) {
-    console.error(`Xatolik: Slug ko'rsatilishi shart! Misol: bun scripts / create - post.mjs my - post`);
-    process.exit(1);
+function parseArgs(argv) {
+  const args = { lang: "uz", part: null, slug: null };
+  for (let i = 0; i < argv.length; i++) {
+    const arg = argv[i];
+    if (arg === "--lang") args.lang = argv[++i];
+    else if (arg === "--part") args.part = argv[++i];
+    else if (!args.slug) args.slug = arg;
   }
+  return args;
+}
 
-  const baseDir = join(process.cwd(), "content", slug);
-  const targetDir = part ? join(baseDir, `part-${part}`) : baseDir;
-  const assetsDir = join(targetDir, "assets");
-  const filePath = join(targetDir, "index.mdx");
+const { slug, lang, part } = parseArgs(process.argv.slice(2));
 
-  const date = new Date().toISOString().split("T")[0];
-  const title = slug.split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+if (!slug || !/^[a-z0-9-]+$/.test(slug)) {
+  console.error("Usage: node scripts/create-post.mjs <slug> [--lang uz|en] [--part N]");
+  console.error("Slug must be lowercase letters, digits and dashes.");
+  process.exit(1);
+}
+if (!LOCALES.includes(lang)) {
+  console.error(`Unknown language "${lang}". Use one of: ${LOCALES.join(", ")}`);
+  process.exit(1);
+}
 
-  const frontmatter = `---
-title: "${title}${part ? ` (${part}-qism)` : ""}"
+const dir = part ? join(process.cwd(), "content", slug, `part-${part}`) : join(process.cwd(), "content", slug);
+const file = join(dir, `index.${lang}.mdx`);
+const date = new Date().toISOString().slice(0, 10);
+const title = slug.split("-").map(word => word[0].toUpperCase() + word.slice(1)).join(" ");
+
+const template = `---
+title: "${title}${part ? ` (${part})` : ""}"
 description: ""
 date: "${date}"
 tags: []
 published: false
 ---
 
-# ${title}${part ? ` (${part}-qism)` : ""}
+## Kirish
 
-Bu yerga maqola matnini yozing...
 `;
 
-  try {
-    await mkdir(assetsDir, { recursive: true });
-    await writeFile(filePath, frontmatter, { flag: "wx" });
-    console.log(`✅ Post yaratildi: ${filePath}`);
-  }
-  catch (err) {
-    if (err.code === "EEXIST") {
-      console.error(`❌ Xatolik: Fayl yoki papka allaqachon mavjud!`);
-    }
-    else {
-      console.error(`❌ Xatolik yuz berdi:`, err);
-    }
-  }
+try {
+  await mkdir(join(dir, "assets"), { recursive: true });
+  await writeFile(file, template, { flag: "wx" });
+  console.log(`Created ${file}`);
 }
-
-createPost();
+catch (error) {
+  if (error.code === "EEXIST") console.error(`Already exists: ${file}`);
+  else console.error(error);
+  process.exit(1);
+}

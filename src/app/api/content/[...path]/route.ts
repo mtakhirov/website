@@ -1,51 +1,46 @@
-import fs from "fs";
-import path from "path";
-import { type NextRequest, NextResponse } from "next/server";
+import fs from "node:fs/promises";
+import path from "node:path";
+import { NextResponse } from "next/server";
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ path: string[] }> },
-) {
-  const { path: pathSegments } = await params;
-  const relativePath = pathSegments.join("/");
+const CONTENT_DIR = path.resolve(process.cwd(), "content");
 
-  // Security: prevent directory traversal
-  if (relativePath.includes("..")) {
-    return new NextResponse("Invalid path", { status: 400 });
+const CONTENT_TYPES: Record<string, string> = {
+  ".png": "image/png",
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".gif": "image/gif",
+  ".svg": "image/svg+xml",
+  ".webp": "image/webp",
+  ".avif": "image/avif",
+  ".mp4": "video/mp4",
+  ".webm": "video/webm",
+};
+
+/** Serves media that lives next to a post: `content/<slug>/assets/*`. */
+export async function GET(_request: Request, context: RouteContext<"/api/content/[...path]">) {
+  const { path: segments } = await context.params;
+  const absolute = path.resolve(CONTENT_DIR, ...segments);
+
+  // Stay inside content/, never serve the MDX sources themselves.
+  if (!absolute.startsWith(`${CONTENT_DIR}${path.sep}`)) {
+    return new NextResponse("Bad request", { status: 400 });
   }
 
-  const absolutePath = path.join(process.cwd(), "content", relativePath);
-
-  if (!fs.existsSync(absolutePath)) {
-    return new NextResponse("Not Found", { status: 404 });
+  const type = CONTENT_TYPES[path.extname(absolute).toLowerCase()];
+  if (!type) {
+    return new NextResponse("Not found", { status: 404 });
   }
 
-  const stats = fs.statSync(absolutePath);
-  if (stats.isDirectory()) {
-    return new NextResponse("Not Found", { status: 404 });
+  try {
+    const file = await fs.readFile(absolute);
+    return new NextResponse(new Uint8Array(file), {
+      headers: {
+        "Content-Type": type,
+        "Cache-Control": "public, max-age=31536000, immutable",
+      },
+    });
   }
-
-  const fileBuffer = fs.readFileSync(absolutePath);
-  const extension = path.extname(absolutePath).toLowerCase();
-
-  const contentTypes: Record<string, string> = {
-    ".png": "image/png",
-    ".jpg": "image/jpeg",
-    ".jpeg": "image/jpeg",
-    ".gif": "image/gif",
-    ".svg": "image/svg+xml",
-    ".webp": "image/webp",
-    ".mp4": "video/mp4",
-    ".webm": "video/webm",
-    ".ogv": "video/ogg",
-  };
-
-  const contentType = contentTypes[extension] || "application/octet-stream";
-
-  return new NextResponse(fileBuffer, {
-    headers: {
-      "Content-Type": contentType,
-      "Cache-Control": "public, max-age=31536000, immutable",
-    },
-  });
+  catch {
+    return new NextResponse("Not found", { status: 404 });
+  }
 }
